@@ -1,0 +1,274 @@
+{
+  "metadata": {
+    "exportTime": "2025-10-30T12:13:36.781Z",
+    "session": "manual",
+    "context": "full",
+    "version": "1.0.0"
+  },
+  "teamStatus": {
+    "overview": {
+      "activeAssistants": 3,
+      "totalAssistants": 5,
+      "knowledgeEntries": 14,
+      "pendingTasks": 2,
+      "lastCollaboration": "2025-10-29T20:24:40.531Z"
+    },
+    "teamMembers": [
+      {
+        "id": "claude-code",
+        "name": "Claude Code",
+        "status": "active",
+        "strengths": [
+          "file-operations",
+          "terminal",
+          "analysis",
+          "debugging"
+        ],
+        "lastActive": "2025-10-30T12:13:36.779Z",
+        "recentActivity": []
+      },
+      {
+        "id": "gemini-ai",
+        "name": "Gemini AI",
+        "status": "configured",
+        "strengths": [
+          "research",
+          "content-generation",
+          "analysis",
+          "creative-tasks"
+        ],
+        "lastActive": "2025-10-30T12:13:36.779Z",
+        "recentActivity": []
+      },
+      {
+        "id": "openai-assistant",
+        "name": "OpenAI Assistant",
+        "status": "configured",
+        "strengths": [
+          "coding",
+          "problem-solving",
+          "explanation",
+          "optimization"
+        ],
+        "lastActive": "2025-10-30T12:13:36.779Z",
+        "recentActivity": []
+      },
+      {
+        "id": "codex-copilot",
+        "name": "Codex Copilot",
+        "status": "active",
+        "strengths": [
+          "code-completion",
+          "syntax",
+          "patterns",
+          "refactoring"
+        ],
+        "lastActive": "2025-10-30T12:13:36.779Z",
+        "recentActivity": []
+      },
+      {
+        "id": "omarchy-navigator",
+        "name": "Omarchy Navigator",
+        "status": "active",
+        "strengths": [
+          "desktop-navigation",
+          "customization",
+          "troubleshooting",
+          "system-commands"
+        ],
+        "lastActive": "2025-10-30T12:13:36.779Z",
+        "recentActivity": [
+          "help me customize my Omarchy desktop with a dark theme and better window management",
+          "test task - respond with brief status check"
+        ]
+      }
+    ],
+    "systemHealth": {
+      "overall": "healthy",
+      "issues": [],
+      "metrics": {
+        "activeRatio": 0.6,
+        "taskBacklog": 2,
+        "knowledgeGrowth": 14
+      }
+    },
+    "collaborationMetrics": {
+      "crossAIKnowledge": 13,
+      "taskDistribution": [
+        "2025-10-30T12:13:36.779Z",
+        "2025-10-30T12:13:36.779Z",
+        "2025-10-30T12:13:36.779Z",
+        "2025-10-30T12:13:36.779Z",
+        "2025-10-30T12:13:36.779Z"
+      ],
+      "knowledgeSharingRate": 0.011309621715772851
+    }
+  },
+  "taskHistory": {
+    "tasks": [
+      {
+        "id": "1761757429784",
+        "task": "help me customize my Omarchy desktop with a dark theme and better window management",
+        "priority": "normal",
+        "status": "queued",
+        "assignedTo": "omarchy-navigator",
+        "completedBy": null,
+        "createdAt": "2025-10-29T17:03:49.784Z",
+        "duration": null
+      },
+      {
+        "id": "1761826402647",
+        "task": "test task - respond with brief status check",
+        "priority": "normal",
+        "status": "queued",
+        "assignedTo": "omarchy-navigator",
+        "completedBy": null,
+        "createdAt": "2025-10-30T12:13:22.647Z",
+        "duration": null
+      }
+    ],
+    "statistics": {
+      "total": 2,
+      "completed": 0,
+      "pending": 2,
+      "averageDuration": 0
+    },
+    "performanceMetrics": {
+      "claude-code": {
+        "total": 0,
+        "completed": 0,
+        "successRate": 0,
+        "averageDuration": 0
+      },
+      "gemini-ai": {
+        "total": 0,
+        "completed": 0,
+        "successRate": 0,
+        "averageDuration": 0
+      },
+      "openai-assistant": {
+        "total": 0,
+        "completed": 0,
+        "successRate": 0,
+        "averageDuration": 0
+      },
+      "codex-copilot": {
+        "total": 0,
+        "completed": 0,
+        "successRate": 0,
+        "averageDuration": 0
+      },
+      "omarchy-navigator": {
+        "total": 2,
+        "completed": 0,
+        "successRate": 0,
+        "averageDuration": 0
+      }
+    }
+  },
+  "knowledgeGraph": {
+    "nodes": [
+      {
+        "id": "navigation",
+        "type": "category",
+        "label": "navigation",
+        "primary": "omarchy-navigator",
+        "contributors": [
+          "claude-code",
+          "gemini-ai"
+        ],
+        "lastUpdated": "2025-10-29T17:03:49.784Z"
+      },
+      {
+        "id": "coding",
+        "type": "category",
+        "label": "coding",
+        "primary": "codex-copilot",
+        "contributors": [
+          "openai-assistant",
+          "claude-code"
+        ],
+        "lastUpdated": "2025-10-29T17:03:49.784Z"
+      },
+      {
+        "id": "system-management",
+        "type": "category",
+        "label": "system-management",
+        "primary": "claude-code",
+        "contributors": [
+          "omarchy-navigator",
+          "openai-assistant"
+        ],
+        "lastUpdated": "2025-10-29T17:03:49.784Z"
+      },
+      {
+        "id": "troubleshooting",
+        "type": "category",
+        "label": "troubleshooting",
+        "primary": "omarchy-navigator",
+        "contributors": [
+          "claude-code",
+          "gemini-ai",
+          "openai-assistant"
+        ],
+        "lastUpdated": "2025-10-29T17:03:49.784Z"
+      },
+      {
+        "id": "customization",
+        "type": "category",
+        "label": "customization",
+        "primary": "omarchy-navigator",
+        "contributors": [
+          "gemini-ai",
+          "claude-code"
+        ],
+        "lastUpdated": "2025-10-29T17:03:49.784Z"
+      }
+    ],
+    "edges": [],
+    "categories": [
+      "navigation",
+      "coding",
+      "system-management",
+      "troubleshooting",
+      "customization"
+    ]
+  },
+  "sessionSummary": {
+    "date": "2025-10-30",
+    "context": "full",
+    "summary": {
+      "totalKnowledgeEntries": 14,
+      "activeAssistants": 3,
+      "pendingTasks": 2,
+      "recentActivity": [
+        {
+          "task": "help me customize my Omarchy desktop with a dark theme and better window management...",
+          "status": "queued",
+          "assignedTo": "omarchy-navigator"
+        },
+        {
+          "task": "test task - respond with brief status check...",
+          "status": "queued",
+          "assignedTo": "omarchy-navigator"
+        }
+      ]
+    },
+    "insights": [
+      "Strong knowledge sharing patterns emerging",
+      "Cross-AI collaboration showing positive trends"
+    ],
+    "recommendations": [
+      "Consider expanding Go integration based on team expertise",
+      "Increase knowledge sharing between specialized AIs",
+      "Explore advanced workflow automation",
+      "Develop performance optimization strategies"
+    ],
+    "nextSteps": [
+      "Implement Go-based system monitoring prototype",
+      "Test cross-language integration patterns",
+      "Evaluate LM Studio insights for integration",
+      "Plan next AI team collaboration session"
+    ]
+  }
+}

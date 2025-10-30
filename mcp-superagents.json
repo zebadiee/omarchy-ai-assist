@@ -1,0 +1,49 @@
+{
+  "mcpServers": {
+    "omarchy-superagent-planner": {
+      "command": "node",
+      "args": ["./mcp-superagents/planner-mcp.js"],
+      "env": {
+        "SUPERAGENT_TYPE": "planner",
+        "TOKEN_POOL_SIZE": "3",
+        "LOAD_BALANCE_STRATEGY": "round_robin"
+      }
+    },
+    "omarchy-superagent-implementor": {
+      "command": "node",
+      "args": ["./mcp-superagents/implementor-mcp.js"],
+      "env": {
+        "SUPERAGENT_TYPE": "implementor",
+        "TOKEN_POOL_SIZE": "3",
+        "LOAD_BALANCE_STRATEGY": "least_busy"
+      }
+    },
+    "omarchy-superagent-knowledge": {
+      "command": "node",
+      "args": ["./mcp-superagents/knowledge-mcp.js"],
+      "env": {
+        "SUPERAGENT_TYPE": "knowledge",
+        "TOKEN_POOL_SIZE": "2",
+        "LOAD_BALANCE_STRATEGY": "specialized"
+      }
+    },
+    "omarchy-token-manager": {
+      "command": "node",
+      "args": ["./mcp-superagents/token-manager-mcp.js"],
+      "env": {
+        "TOKEN_DISTRIBUTION": "dynamic",
+        "MONITORING_INTERVAL": "30",
+        "AUTO_SCALE_THRESHOLD": "0.8"
+      }
+    },
+    "omarchy-workflow-coordinator": {
+      "command": "node",
+      "args": ["./mcp-superagents/workflow-coordinator-mcp.js"],
+      "env": {
+        "WORKFLOW_TYPE": "distributed",
+        "PARALLEL_TASKS": "true",
+        "LOAD_SHARING": "true"
+      }
+    }
+  }
+}

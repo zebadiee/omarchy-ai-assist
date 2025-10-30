@@ -1,0 +1,26 @@
+{
+  "systemMonitor": {
+    "path": "/usr/local/bin/omarchy-system-monitor",
+    "config": "~/.config/omarchy/system-monitor/",
+    "service": "~/.config/systemd/user/omarchy-system-monitor.service",
+    "description": "Real-time system monitoring with Waybar integration"
+  },
+  "fileManager": {
+    "path": "/usr/local/bin/omarchy-file-manager",
+    "config": "~/.config/omarchy/file-manager/",
+    "service": "~/.config/systemd/user/omarchy-file-manager.service",
+    "description": "Keyboard-driven file management with Wofi integration"
+  },
+  "launcher": {
+    "path": "/usr/local/bin/omarchy-launcher",
+    "config": "~/.config/omarchy/launcher/",
+    "service": "~/.config/systemd/user/omarchy-launcher.service",
+    "description": "AI-enhanced application launcher"
+  },
+  "configManager": {
+    "path": "/usr/local/bin/omarchy-config-manager",
+    "config": "~/.config/omarchy/config-manager/",
+    "service": "~/.config/systemd/user/omarchy-config-manager.service",
+    "description": "Unified configuration management with hot reload"
+  }
+}

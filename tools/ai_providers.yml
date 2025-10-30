@@ -1,0 +1,56 @@
+# Omarchy AI Assist Provider Configuration
+# Provider-agnostic AI subagent workflow
+
+providers:
+  # OpenRouter (cloud-based, multiple models)
+  openrouter:
+    env: [ "OPENROUTER_API_KEY", "OR_ENDPOINT", "OR_MODEL" ]
+    cmd: >-
+      curl -sS -H "authorization: Bearer $OPENROUTER_API_KEY"
+      -H "content-type: application/json"
+      -H "HTTP-Referer: https://omarchy.local"
+      -H "X-Title: Omarchy Wagon Wheels"
+      -d @- "$OR_ENDPOINT" | jq -r '.choices[0].message.content'
+
+  # LM Studio (local, GUI-based)
+  lmstudio:
+    env: [ "LMSTUDIO_BASE_URL" ]
+    cmd: >-
+      curl -sS -H "content-type: application/json"
+      -d "{\"model\":\"local\",\"prompt\":\"$MSG\",\"stream\":false}" \
+      "$LMSTUDIO_BASE_URL/v1/chat/completions" | jq -r '.choices[0].message.content'
+
+  # Ollama (local, CLI-first)
+  ollama:
+    env: [ "OLLAMA_BASE_URL", "OLLAMA_MODEL" ]
+    cmd: >-
+      curl -sS -H "content-type: application/json"
+      -d "{\"model\":\"$MODEL\",\"prompt\":\"$MSG\",\"stream\":false}" \
+      "$OLLAMA_BASE_URL/api/generate" | jq -r '.response'
+
+  # Anthropic Claude
+  anthropic:
+    env: [ "ANTHROPIC_API_KEY" ]
+    cmd: >-
+      curl -sS -H "x-api-key: $ANTHROPIC_API_KEY"
+      -H "content-type: application/json"
+      -H "anthropic-version: 2023-06-01"
+      -d '{"model":"claude-3-sonnet-20240229","max_tokens":1000,"messages":[{"role":"user","content":"$MSG"}]}' \
+      https://api.anthropic.com/v1/messages | jq -r '.content[0].text'
+
+  # OpenAI
+  openai:
+    env: [ "OPENAI_API_KEY" ]
+    cmd: >-
+      curl -sS -H "authorization: Bearer $OPENAI_API_KEY"
+      -H "content-type: application/json"
+      -d '{"model":"gpt-4o","messages":[{"role":"user","content":"$MSG"}]}' \
+      https://api.openai.com/v1/chat/completions | jq -r '.choices[0].message.content'
+
+  # Google Gemini
+  gemini:
+    env: [ "GEMINI_API_KEY" ]
+    cmd: >-
+      curl -sS -H "content-type: application/json"
+      -d "{\"contents\":[{\"parts\":[{\"text\":\"$MSG\"}]}]}' \
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$GEMINI_API_KEY" | jq -r '.candidates[0].content.parts[0].text'

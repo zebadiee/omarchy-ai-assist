@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "channels": [
+    "knowledge-sharing",
+    "task-distribution",
+    "status-updates"
+  ],
+  "frequency": "real-time",
+  "backup": "lm-studio-integration"
+}

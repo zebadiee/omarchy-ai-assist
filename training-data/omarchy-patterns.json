@@ -1,0 +1,12 @@
+{
+  "desktop": {
+    "workflow": "keyboard-driven",
+    "customization": "ai-assisted",
+    "integration": "system-wide"
+  },
+  "development": {
+    "approach": "collaborative-ai",
+    "deployment": "local-first",
+    "scaling": "modular"
+  }
+}

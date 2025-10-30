@@ -1,0 +1,99 @@
+{
+  "overview": {
+    "activeAssistants": 3,
+    "totalAssistants": 5,
+    "knowledgeEntries": 14,
+    "pendingTasks": 2,
+    "lastCollaboration": "2025-10-29T20:24:40.531Z"
+  },
+  "teamMembers": [
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "status": "active",
+      "strengths": [
+        "file-operations",
+        "terminal",
+        "analysis",
+        "debugging"
+      ],
+      "lastActive": "2025-10-30T12:13:36.779Z",
+      "recentActivity": []
+    },
+    {
+      "id": "gemini-ai",
+      "name": "Gemini AI",
+      "status": "configured",
+      "strengths": [
+        "research",
+        "content-generation",
+        "analysis",
+        "creative-tasks"
+      ],
+      "lastActive": "2025-10-30T12:13:36.779Z",
+      "recentActivity": []
+    },
+    {
+      "id": "openai-assistant",
+      "name": "OpenAI Assistant",
+      "status": "configured",
+      "strengths": [
+        "coding",
+        "problem-solving",
+        "explanation",
+        "optimization"
+      ],
+      "lastActive": "2025-10-30T12:13:36.779Z",
+      "recentActivity": []
+    },
+    {
+      "id": "codex-copilot",
+      "name": "Codex Copilot",
+      "status": "active",
+      "strengths": [
+        "code-completion",
+        "syntax",
+        "patterns",
+        "refactoring"
+      ],
+      "lastActive": "2025-10-30T12:13:36.779Z",
+      "recentActivity": []
+    },
+    {
+      "id": "omarchy-navigator",
+      "name": "Omarchy Navigator",
+      "status": "active",
+      "strengths": [
+        "desktop-navigation",
+        "customization",
+        "troubleshooting",
+        "system-commands"
+      ],
+      "lastActive": "2025-10-30T12:13:36.779Z",
+      "recentActivity": [
+        "help me customize my Omarchy desktop with a dark theme and better window management",
+        "test task - respond with brief status check"
+      ]
+    }
+  ],
+  "systemHealth": {
+    "overall": "healthy",
+    "issues": [],
+    "metrics": {
+      "activeRatio": 0.6,
+      "taskBacklog": 2,
+      "knowledgeGrowth": 14
+    }
+  },
+  "collaborationMetrics": {
+    "crossAIKnowledge": 13,
+    "taskDistribution": [
+      "2025-10-30T12:13:36.779Z",
+      "2025-10-30T12:13:36.779Z",
+      "2025-10-30T12:13:36.779Z",
+      "2025-10-30T12:13:36.779Z",
+      "2025-10-30T12:13:36.779Z"
+    ],
+    "knowledgeSharingRate": 0.011309621715772851
+  }
+}

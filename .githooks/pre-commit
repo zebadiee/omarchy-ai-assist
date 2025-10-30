@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Pre-commit hook to prevent secrets and dangerous patterns
+fail=0
+
+# Scan for secrets
+scan_secrets() {
+  echo "[HOOK] Scanning for potential secrets..."
+
+  # Common secret patterns
+  if grep -RIl --binary-files=without-match --exclude-dir=.git -E \
+    '(BEGIN (RSA|OPENSSH) PRIVATE KEY|-----BEGIN.*PRIVATE KEY-----|aws_secret_access_key|xoxb-|ghp_[A-Za-z0-9]{36}|sk-[A-Za-z0-9]{48}|AIza[A-Za-z0-9_-]{35})' . 2>/dev/null; then
+    echo "[HOOK] ❌ Potential secret detected. Commit aborted."
+    echo "[HOOK] Please remove or secure the sensitive data before committing."
+    fail=1
+  fi
+
+  # Check for API keys in config files
+  if find . -name "*.config" -o -name "*.env*" -o -name "*.json" -o -name "*.yaml" -o -name "*.yml" | \
+     grep -v '.git' | xargs grep -l -E '(api[_-]?key[_-]?=|token[_-]?=|secret[_-]?=)' 2>/dev/null; then
+    echo "[HOOK] ⚠️  Potential API keys found in config files"
+    echo "[HOOK] Ensure these are placeholder values or properly secured"
+  fi
+}
+
+# Scan for dangerous patterns
+scan_dangerous() {
+  echo "[HOOK] Scanning for dangerous patterns..."
+
+  # Look for potentially dangerous file operations
+  if grep -RIl --exclude-dir=.git -E \
+    '(rm[[:space:]]+-rf[[:space:]]+/(?!/tmp|/var/tmp)|chmod[[:space:]]+-R[[:space:]]+777|sudo[[:space:]]+rm|chown[[:space:]]+-R.*root)' . 2>/dev/null; then
+    echo "[HOOK] ⚠️  Potentially dangerous file operations detected"
+    echo "[HOOK] Please review these files carefully"
+  fi
+}
+
+# Main scan
+scan_secrets
+scan_dangerous
+
+if [ $fail -eq 0 ]; then
+  echo "[HOOK] ✅ Pre-commit checks passed"
+fi
+
+exit $fail

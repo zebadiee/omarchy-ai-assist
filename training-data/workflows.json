@@ -1,0 +1,20 @@
+{
+  "development": {
+    "sequence": [
+      "analysis",
+      "implementation",
+      "testing",
+      "deployment"
+    ],
+    "optimization": "parallel-ai-tasks"
+  },
+  "problem-solving": {
+    "sequence": [
+      "assessment",
+      "brainstorming",
+      "solution-design",
+      "implementation"
+    ],
+    "optimization": "cross-ai-collaboration"
+  }
+}

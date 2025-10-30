@@ -1,0 +1,130 @@
+# Omarchy AI Assist Provider Configuration
+# Provider-agnostic AI subagent workflow
+
+providers:
+  # OpenRouter (cloud-based, multiple models)
+  openrouter:
+    env: [ "OPENROUTER_API_KEY", "OR_ENDPOINT", "OR_MODEL" ]
+    cmd: >-
+      curl -sS -H "authorization: Bearer $OPENROUTER_API_KEY"
+      -H "content-type: application/json"
+      -H "HTTP-Referer: https://omarchy.local"
+      -H "X-Title: Omarchy Wagon Wheels"
+      -d @- "$OR_ENDPOINT" | jq -r '.choices[0].message.content'
+
+  # Ollama (local, fallback)
+  ollama:
+    env: [ "OLLAMA_BASE_URL", "OLLAMA_MODEL" ]
+    cmd: >-
+      curl -sS -H "content-type: application/json"
+      -d @- "$OLLAMA_BASE_URL/api/generate" | jq -r '.response'
+
+  # LM Studio (local, advanced)
+  lmstudio:
+    env: [ "LMSTUDIO_BASE_URL", "LMSTUDIO_API_KEY", "LMSTUDIO_MODEL" ]
+    cmd: >-
+      curl -sS -H "content-type: application/json"
+      -H "authorization: Bearer $LMSTUDIO_API_KEY"
+      -d @- "$LMSTUDIO_BASE_URL/chat/completions" | jq -r '.choices[0].message.content'
+
+  # Direct OpenAI (optional)
+  openai:
+    env: [ "OPENAI_API_KEY", "OPENAI_MODEL", "OPENAI_ENDPOINT" ]
+    cmd: >-
+      curl -sS -H "authorization: Bearer $OPENAI_API_KEY"
+      -H "content-type: application/json"
+      -d @- "${OPENAI_ENDPOINT:-https://api.openai.com/v1/chat/completions}" | jq -r '.choices[0].message.content'
+
+# Tier-based model allocation
+tiers:
+  # X1: Premium tier (largest/most capable models)
+  x1:
+    openrouter: anthropic/claude-3.5-sonnet
+    lmstudio: gpt-4o-ss-20b
+    ollama: llama3.1:70b
+    openai: gpt-4o
+
+  # X0: Standard tier (balanced performance/cost)
+  x0:
+    openrouter: anthropic/claude-3.5-haiku
+    lmstudio: llama-3.2-3b-instruct
+    ollama: llama3.1:8b
+    openai: gpt-4o-mini
+
+  # Free: Basic tier (small/fast models)
+  free:
+    openrouter: google/gemma-2-9b-it:free
+    lmstudio: mistral-7b-instruct
+    ollama: mistral
+    openai: gpt-3.5-turbo
+
+# Subagent specializations
+subagents:
+  planner:
+    preferred_tier: x1
+    system_prompt: |
+      You are an expert software architect and strategic planner for Omarchy OS.
+      Focus on system design, architectural patterns, and implementation strategies.
+      Provide detailed, actionable plans with clear technical specifications.
+
+  implementor:
+    preferred_tier: x0
+    system_prompt: |
+      You are a master implementor and code generator for Omarchy OS.
+      Generate clean, efficient, and well-documented code.
+      Focus on Go, JavaScript, and shell scripting for system integration.
+
+  knowledge:
+    preferred_tier: free
+    system_prompt: |
+      You are a knowledge extraction and pattern analysis specialist.
+      Identify patterns, extract insights, and synthesize information.
+      Focus on learning and cross-agent knowledge sharing.
+
+# Environment configuration
+defaults:
+  provider: openrouter
+  tier: x0
+  timeout: 30
+  max_retries: 3
+
+# Fallback chain (if primary provider fails)
+fallback_chain:
+  - openrouter
+  - ollama
+  - lmstudio
+  - openai
+
+# Model-specific configurations
+model_configs:
+  # For code generation tasks
+  code_generation:
+    temperature: 0.2
+    max_tokens: 4000
+    top_p: 0.95
+
+  # For creative tasks
+  creative:
+    temperature: 0.8
+    max_tokens: 2000
+    top_p: 0.9
+
+  # For analysis tasks
+  analysis:
+    temperature: 0.1
+    max_tokens: 3000
+    top_p: 0.99
+
+# Cost optimization settings
+cost_optimization:
+  enable_caching: true
+  cache_ttl: 3600  # 1 hour
+  budget_alerts: true
+  daily_budget: 10.00  # USD
+
+# Monitoring and logging
+monitoring:
+  enable_metrics: true
+  log_requests: true
+  performance_tracking: true
+  error_reporting: true

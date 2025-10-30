@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cmd="${1:-help}"; shift || true
+case "$cmd" in
+  workflow) bash speccy-kit/tools/run-workflow.sh "$@";;
+  dev)      bash speccy-kit/tools/dev-helper.sh "$@";;
+  review)   bash speccy-kit/tools/code-review.sh "$@";;
+  safe)     ./tools/safe_run.sh "$@";;
+  init)     bash speccy-kit/tools/init-project.sh "$@";;
+  health)   bash speccy-kit/tools/health.sh "$@";;
+  memory)   bash speccy-kit/tools/ai-memory.sh "$@";;
+  reflect)  bash speccy-kit/tools/ai-reflect.sh "$@";;
+  autonomous) bash speccy-kit/tools/ai-autonomous.sh "$@";;
+  baptize)  bash speccy-kit/tools/ai-baptism.sh "$@";;
+  help|*)   echo "speccy {workflow|dev|review|safe|init|health|memory|reflect|autonomous|baptize}"; exit 2;;
+esac

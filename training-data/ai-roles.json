@@ -1,0 +1,30 @@
+{
+  "claude-code": {
+    "primary": "system-integration",
+    "strengths": [
+      "file-operations",
+      "terminal",
+      "analysis",
+      "debugging"
+    ],
+    "focus": "development-workflow"
+  },
+  "gemini-ai": {
+    "primary": "innovation",
+    "strengths": [
+      "research",
+      "content-generation",
+      "analysis"
+    ],
+    "focus": "creative-solutions"
+  },
+  "omarchy-navigator": {
+    "primary": "desktop-integration",
+    "strengths": [
+      "system-knowledge",
+      "user-experience",
+      "customization"
+    ],
+    "focus": "omarchy-ecosystem"
+  }
+}

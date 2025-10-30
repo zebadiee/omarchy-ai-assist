@@ -1,0 +1,52 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug AI Assistant",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/omai.js",
+      "args": [],
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Debug Token Tracker",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/token-tracker.js",
+      "args": [],
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Run Ecosystem Init",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/omarchy-init.js",
+      "args": [],
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Debug MCP Launcher",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/mcp-superagent-launcher.js",
+      "args": [],
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ]
+}

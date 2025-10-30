@@ -1,0 +1,16 @@
+
+{
+  "ts": "2025-10-30T17:43:01+00:00",
+  "who": "declan|system|agent",
+  "type": "preference",
+  "scope": "global",
+  "text": "User prefers command line interfaces (CLI) over graphical user interfaces (GUI)",
+  "evidence": [
+    {
+      "file": "",
+      "line": 0,
+      "quote": ""
+    }
+  ],
+  "ttl_days": 180
+}

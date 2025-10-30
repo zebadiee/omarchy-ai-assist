@@ -1,0 +1,18 @@
+version: 1
+workflows:
+  lint_test:
+    desc: Lint & test across languages
+    - run: make lint
+    - run: make test
+  validate:
+    desc: Validate speccy plumbing without project deps
+    - run: ./speccy health
+    - run: echo "Registry OK; CLI OK; CI-ready."
+  ai_baptism:
+    desc: Train AI assistant with SafeOps guardrails
+    - run: ./speccy baptize
+  ai_learning:
+    desc: Daily AI learning and reflection cycle
+    - run: ./speccy workflow validate >> speccy-lab/logs/validation-history.log
+    - run: ./speccy memory "daily_learning_cycle_completed"
+    - run: ./speccy reflect

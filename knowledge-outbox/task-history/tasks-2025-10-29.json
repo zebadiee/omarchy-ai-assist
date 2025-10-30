@@ -1,0 +1,52 @@
+{
+  "tasks": [
+    {
+      "id": "1761757429784",
+      "task": "help me customize my Omarchy desktop with a dark theme and better window management",
+      "priority": "normal",
+      "status": "queued",
+      "assignedTo": "omarchy-navigator",
+      "completedBy": null,
+      "createdAt": "2025-10-29T17:03:49.784Z",
+      "duration": null
+    }
+  ],
+  "statistics": {
+    "total": 1,
+    "completed": 0,
+    "pending": 1,
+    "averageDuration": 0
+  },
+  "performanceMetrics": {
+    "claude-code": {
+      "total": 0,
+      "completed": 0,
+      "successRate": 0,
+      "averageDuration": 0
+    },
+    "gemini-ai": {
+      "total": 0,
+      "completed": 0,
+      "successRate": 0,
+      "averageDuration": 0
+    },
+    "openai-assistant": {
+      "total": 0,
+      "completed": 0,
+      "successRate": 0,
+      "averageDuration": 0
+    },
+    "codex-copilot": {
+      "total": 0,
+      "completed": 0,
+      "successRate": 0,
+      "averageDuration": 0
+    },
+    "omarchy-navigator": {
+      "total": 1,
+      "completed": 0,
+      "successRate": 0,
+      "averageDuration": 0
+    }
+  }
+}

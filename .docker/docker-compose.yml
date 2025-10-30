@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  llm-backend:
+    image: ollama/ollama:latest
+    container_name: marchy-ollama
+    restart: unless-stopped
+    ports: ["11434:11434"]
+    volumes:
+      - ollama-models:/root/.ollama
+      - ..:/workspace:ro
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+
+  webui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: marchy-webui
+    restart: unless-stopped
+    ports: ["3000:8080"]
+    environment:
+      - WEBUI_AUTH=False
+      - ENABLE_OPENAI_API=True
+      - OPENAI_API_BASE_URL=http://llm-backend:11434/v1
+      - OPENAI_API_KEY=dummy-local
+      # Optional: expose handshake to UI as a banner/link
+      - HANDSHAKE_PATH=/workspace/HANDSHAKE.md
+    volumes:
+      - ..:/workspace:ro
+    depends_on:
+      - llm-backend
+
+volumes:
+  ollama-models:

@@ -1,0 +1,12 @@
+Available workflows:
+  - lint_test
+  - desc
+  - validate
+  - desc
+  - ai_baptism
+  - desc
+  - ai_learning
+  - desc
+
+Usage: speccy-kit/tools/run-workflow.sh <workflow-name>
+Example: speccy-kit/tools/run-workflow.sh lint_test

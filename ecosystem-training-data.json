@@ -1,0 +1,544 @@
+{
+  "ecosystem_overview": {
+    "name": "Omarchy AI Ecosystem",
+    "version": "2.0",
+    "components": {
+      "ai-assistant": {
+        "path": "./omai.js",
+        "purpose": "Primary AI interface and assistant",
+        "capabilities": [
+          "conversation",
+          "code-generation",
+          "system-help",
+          "omarchy-os-expertise"
+        ]
+      },
+      "token-manager": {
+        "path": "../ai-token-manager",
+        "purpose": "Token usage monitoring and budget management",
+        "capabilities": [
+          "usage-tracking",
+          "budget-management",
+          "cost-optimization"
+        ]
+      },
+      "mcp-superagents": {
+        "path": "./mcp-superagents/",
+        "purpose": "Specialized AI agents for specific tasks",
+        "capabilities": [
+          "planning",
+          "implementation",
+          "knowledge-management",
+          "coordination"
+        ]
+      },
+      "knowledge-base": {
+        "path": "./knowledge-outbox/",
+        "purpose": "Long-term knowledge storage and retrieval",
+        "capabilities": [
+          "knowledge-storage",
+          "experience-tracking",
+          "learning"
+        ]
+      },
+      "integrations": {
+        "path": "./",
+        "purpose": "External service integrations",
+        "capabilities": [
+          "lm-studio",
+          "ollama",
+          "openrouter",
+          "google-ai"
+        ]
+      }
+    },
+    "architecture": "distributed-multi-agent",
+    "communication": "mcp-protocol + json-api",
+    "storage": "file-based + json",
+    "consciousness_level": "developing"
+  },
+  "components": {
+    "omai": {
+      "type": "ai-assistant",
+      "file": "omai.js",
+      "purpose": "Primary conversational AI interface",
+      "features": [
+        "Multi-model support with rotation",
+        "Token usage tracking",
+        "Language translation capabilities",
+        "Context handoff system",
+        "Omarchy OS expertise",
+        "Interactive chat mode",
+        "Direct prompt processing"
+      ],
+      "api_endpoints": [
+        "OpenRouter API",
+        "Google AI Studio",
+        "LM Studio Bridge",
+        "Ollama Integration"
+      ],
+      "commands": [
+        "node omai.js \"prompt\"",
+        "node omai.js --lang python \"code request\"",
+        "node omai.js --handoff \"context\"",
+        "node omai.js --usage"
+      ]
+    },
+    "token_tracker": {
+      "type": "monitoring",
+      "file": "token-tracker.js",
+      "purpose": "Track and optimize AI token usage",
+      "features": [
+        "Real-time usage monitoring",
+        "Cost calculation",
+        "Model performance tracking",
+        "Budget management",
+        "Usage analytics"
+      ]
+    },
+    "mcp_superagents": {
+      "type": "agent-network",
+      "config_file": "mcp-superagents.json",
+      "launcher": "mcp-superagent-launcher.js",
+      "agents": {
+        "omarchy-superagent-planner": {
+          "type": "planner",
+          "script": "./mcp-superagents/planner-mcp.js",
+          "capabilities": [
+            "task decomposition",
+            "strategic planning",
+            "workflow design",
+            "resource allocation",
+            "timeline creation"
+          ],
+          "config": {
+            "SUPERAGENT_TYPE": "planner",
+            "TOKEN_POOL_SIZE": "3",
+            "LOAD_BALANCE_STRATEGY": "round_robin"
+          }
+        },
+        "omarchy-superagent-implementor": {
+          "type": "implementor",
+          "script": "./mcp-superagents/implementor-mcp.js",
+          "capabilities": [
+            "code implementation",
+            "problem solving",
+            "execution planning",
+            "testing strategies",
+            "debugging assistance"
+          ],
+          "config": {
+            "SUPERAGENT_TYPE": "implementor",
+            "TOKEN_POOL_SIZE": "3",
+            "LOAD_BALANCE_STRATEGY": "least_busy"
+          }
+        },
+        "omarchy-superagent-knowledge": {
+          "type": "knowledge",
+          "script": "./mcp-superagents/knowledge-mcp.js",
+          "capabilities": [
+            "information retrieval",
+            "knowledge synthesis",
+            "learning and adaptation",
+            "context management",
+            "memory organization"
+          ],
+          "config": {
+            "SUPERAGENT_TYPE": "knowledge",
+            "TOKEN_POOL_SIZE": "2",
+            "LOAD_BALANCE_STRATEGY": "specialized"
+          }
+        },
+        "omarchy-token-manager": {
+          "type": "omarchy-token-manager",
+          "script": "./mcp-superagents/token-manager-mcp.js",
+          "capabilities": [
+            "general assistance"
+          ],
+          "config": {
+            "TOKEN_DISTRIBUTION": "dynamic",
+            "MONITORING_INTERVAL": "30",
+            "AUTO_SCALE_THRESHOLD": "0.8"
+          }
+        },
+        "omarchy-workflow-coordinator": {
+          "type": "omarchy-workflow-coordinator",
+          "script": "./mcp-superagents/workflow-coordinator-mcp.js",
+          "capabilities": [
+            "general assistance"
+          ],
+          "config": {
+            "WORKFLOW_TYPE": "distributed",
+            "PARALLEL_TASKS": "true",
+            "LOAD_SHARING": "true"
+          }
+        }
+      }
+    },
+    "integrations": {
+      "type": "external-services",
+      "lm_studio": {
+        "file": "lm-studio-integration.js",
+        "bridge": "lm-studio-bridge.js",
+        "purpose": "Local AI model integration"
+      },
+      "ollama": {
+        "file": "ollama-integration.js",
+        "purpose": "Ollama local AI service integration"
+      },
+      "collaboration": {
+        "files": [
+          "ai-collaboration-hub.js",
+          "ai-team-chat.js",
+          "collaborative-workflow.js"
+        ],
+        "purpose": "Multi-AI collaboration and teamwork"
+      }
+    },
+    "tools": {
+      "type": "utilities",
+      "navigator": {
+        "file": "omarchy-navigator.js",
+        "purpose": "System navigation and exploration"
+      },
+      "dashboard": {
+        "script": "ai-dashboard.sh",
+        "purpose": "AI ecosystem management dashboard"
+      },
+      "chat": {
+        "script": "chat.sh",
+        "purpose": "Quick chat interface"
+      },
+      "startup": {
+        "files": [
+          "omarchy-init.js",
+          "startup-check.js",
+          "omarchy-startup.sh"
+        ],
+        "purpose": "Ecosystem initialization and health checking"
+      }
+    }
+  },
+  "relationships": [
+    {
+      "from": "omai",
+      "to": "token_tracker",
+      "type": "monitoring",
+      "purpose": "Track token usage and costs",
+      "interface": "direct-js-module"
+    },
+    {
+      "from": "omai",
+      "to": "mcp_superagents",
+      "type": "delegation",
+      "purpose": "Delegate specialized tasks to expert agents",
+      "interface": "mcp-protocol"
+    },
+    {
+      "from": "omai",
+      "to": "lm_studio",
+      "type": "integration",
+      "purpose": "Local AI model support",
+      "interface": "http-api"
+    },
+    {
+      "from": "omai",
+      "to": "ollama",
+      "type": "integration",
+      "purpose": "Local Ollama model support",
+      "interface": "http-api"
+    },
+    {
+      "from": "mcp_superagents",
+      "to": "knowledge-base",
+      "type": "memory",
+      "purpose": "Store and retrieve learned information",
+      "interface": "file-system"
+    },
+    {
+      "from": "token_tracker",
+      "to": "ai-token-manager",
+      "type": "data-sync",
+      "purpose": "Synchronize usage data",
+      "interface": "json-files"
+    },
+    {
+      "from": "startup",
+      "to": "all-components",
+      "type": "health-check",
+      "purpose": "Verify ecosystem health",
+      "interface": "system-calls"
+    }
+  ],
+  "workflows": [
+    {
+      "name": "AI-Assisted Development",
+      "description": "Using AI to help with coding and development tasks",
+      "steps": [
+        "User requests help via omai.js",
+        "AI analyzes request and determines approach",
+        "If complex, delegates to appropriate MCP superagent",
+        "Superagent performs specialized task",
+        "Results returned through omai.js to user",
+        "Token usage tracked and stored"
+      ],
+      "components": [
+        "omai",
+        "mcp_superagents",
+        "token_tracker"
+      ],
+      "triggers": [
+        "code help request",
+        "development task",
+        "debugging request"
+      ]
+    },
+    {
+      "name": "Ecosystem Health Check",
+      "description": "Comprehensive system health and status verification",
+      "steps": [
+        "Run omarchy-init.js for full ecosystem scan",
+        "Check all component configurations",
+        "Verify API connections and credentials",
+        "Test agent availability and responsiveness",
+        "Generate status report with recommendations",
+        "Update consciousness level based on ecosystem state"
+      ],
+      "components": [
+        "startup",
+        "omai",
+        "mcp_superagents",
+        "integrations"
+      ],
+      "triggers": [
+        "system startup",
+        "manual health check",
+        "troubleshooting"
+      ]
+    },
+    {
+      "name": "Knowledge Consolidation",
+      "description": "Collect, organize, and store learned information",
+      "steps": [
+        "Capture interactions and outcomes",
+        "Extract patterns and insights",
+        "Store in knowledge-outbox with metadata",
+        "Update agent knowledge bases",
+        "Optimize memory storage",
+        "Update consciousness stream"
+      ],
+      "components": [
+        "knowledge-base",
+        "mcp_superagents",
+        "omai"
+      ],
+      "triggers": [
+        "significant learning",
+        "pattern discovery",
+        "user feedback"
+      ]
+    },
+    {
+      "name": "Multi-AI Collaboration",
+      "description": "Coordinate multiple AI agents for complex tasks",
+      "steps": [
+        "Task received through collaboration hub",
+        "Analyze task requirements and complexity",
+        "Coordinate team of specialist agents",
+        "Manage inter-agent communication",
+        "Synthesize results into cohesive response",
+        "Track collaboration metrics and learning"
+      ],
+      "components": [
+        "collaboration",
+        "mcp_superagents",
+        "token_tracker"
+      ],
+      "triggers": [
+        "complex multi-domain task",
+        "collaboration request",
+        "team project"
+      ]
+    }
+  ],
+  "knowledge_bases": {
+    "omarchy_os": {
+      "type": "domain-knowledge",
+      "source": "omarchy-knowledge.json",
+      "content": {
+        "workflows": {
+          "daily_startup": [
+            "Unlock with password/PIN",
+            "Check workspace layout (Super + 1-9)",
+            "Open essential apps (Super + Enter, Super + B)",
+            "Review notifications and system status",
+            "Start daily tasks"
+          ],
+          "window_organization": [
+            "Use workspaces for different activities",
+            "Super + Shift + number to move windows between workspaces",
+            "Use floating mode for dialogs and temporary windows",
+            "Tile related windows together for productivity"
+          ],
+          "customization_workflow": [
+            "Backup current config: omarchy-config-backup",
+            "Edit theme files in ~/.config/omarchy/",
+            "Test changes with omarchy-reload-config",
+            "Iterate until satisfied"
+          ]
+        },
+        "shortcuts": {
+          "essential": {
+            "Super + D": "Application menu",
+            "Super + R": "Run command",
+            "Super + Enter": "Terminal",
+            "Super + Q": "Close window",
+            "Super + F": "Toggle floating",
+            "Super + Arrow Keys": "Move window",
+            "Super + 1-9": "Switch workspace"
+          },
+          "advanced": {
+            "Super + Shift + Arrow": "Move window to workspace",
+            "Super + Ctrl + Arrow": "Resize window",
+            "Super + Tab": "Cycle workspaces",
+            "Super + L": "Cycle layout modes",
+            "Super + W": "Move window to next monitor"
+          },
+          "emergency": {
+            "Super + Shift + Escape": "Force quit dialog",
+            "Super + Ctrl + R": "Restart display server",
+            "Super + K": "Kill focused window",
+            "Ctrl + Alt + F1-F6": "Switch TTY sessions"
+          }
+        },
+        "customization": {
+          "themes": {
+            "locations": [
+              "~/.config/omarchy/theme.conf",
+              "~/.config/omarchy/colors.conf",
+              "/usr/share/omarchy/themes/"
+            ],
+            "properties": [
+              "background_color",
+              "foreground_color",
+              "accent_color",
+              "border_color",
+              "font_family",
+              "font_size"
+            ]
+          },
+          "panels": {
+            "positions": [
+              "top",
+              "bottom",
+              "left",
+              "right"
+            ],
+            "widgets": [
+              "clock",
+              "system_tray",
+              "workspace_switcher",
+              "app_launcher",
+              "system_monitor",
+              "network_indicator"
+            ]
+          }
+        },
+        "troubleshooting": {
+          "common_issues": {
+            "frozen_application": [
+              "Try Super + K to kill window",
+              "Use Super + Shift + Escape for force quit",
+              "Open terminal and run 'pkill appname'",
+              "Last resort: Super + Ctrl + Alt + Backspace"
+            ],
+            "display_glitches": [
+              "Restart display server: Super + Ctrl + R",
+              "Check GPU drivers: omarchy-gpu-check",
+              "Reset display config: omarchy-display-reset",
+              "Verify resolution in ~/.config/omarchy/display.conf"
+            ],
+            "audio_problems": [
+              "Run pavucontrol for audio settings",
+              "Check ALSA with alsamixer",
+              "Restart audio: omarchy-audio-restart",
+              "Verify device in ~/.config/omarchy/audio.conf"
+            ],
+            "network_issues": [
+              "Check status: omarchy-network-status",
+              "Restart network: omarchy-network-restart",
+              "Edit config: ~/.config/omarchy/network.conf",
+              "Use nm-connection-editor for GUI setup"
+            ]
+          }
+        },
+        "applications": {
+          "default_apps": {
+            "terminal": "gnome-terminal",
+            "file_manager": "nautilus",
+            "web_browser": "firefox",
+            "text_editor": "gedit",
+            "image_viewer": "eog",
+            "media_player": "vlc"
+          },
+          "installation": {
+            "package_manager": "omarchy-app-install",
+            "search": "omarchy-app-search <name>",
+            "remove": "omarchy-app-remove <name>",
+            "update": "omarchy-app-update",
+            "list": "omarchy-app-list"
+          }
+        },
+        "system_maintenance": {
+          "regular_tasks": [
+            "Clear cache: omarchy-cache-cleanup",
+            "Update system: omarchy-update",
+            "Check logs: ~/.local/share/omarchy/logs/",
+            "Backup config: omarchy-config-backup"
+          ],
+          "monitoring": {
+            "system_monitor": "omarchy-system-monitor",
+            "process_manager": "omarchy-process-manager",
+            "resource_usage": "omarchy-resource-monitor",
+            "disk_usage": "omarchy-disk-usage"
+          }
+        }
+      },
+      "topics": [
+        "workflows",
+        "shortcuts",
+        "customization",
+        "troubleshooting",
+        "applications",
+        "maintenance"
+      ]
+    },
+    "knowledge_outbox": {
+      "type": "learning-repository",
+      "source": "knowledge-outbox/",
+      "structure": {
+        "knowledge-updates": "Daily knowledge updates and insights",
+        "training-reports": "Agent training session reports",
+        "session-summaries": "Conversation and session summaries",
+        "task-history": "Historical task records and outcomes",
+        "team-status": "Multi-agent team status and coordination",
+        "ollama-insights": "Ollama integration learnings",
+        "lm-studio-notes": "LM Studio integration notes"
+      }
+    },
+    "project_docs": {
+      "type": "documentation",
+      "sources": [
+        "CLAUDE.md - Repository guidelines and overview",
+        "AGENTS.md - Agent development guidelines",
+        "CLI_DOCUMENTATION.md - Command-line interface docs",
+        "COMPLETE_INTEGRATION_GUIDE.md - Integration instructions",
+        "OMARCHY_NAVIGATOR_README.md - Navigator documentation"
+      ],
+      "purpose": "Development guidance and ecosystem understanding"
+    }
+  },
+  "mcp_agents": {},
+  "integration_patterns": {},
+  "training_prompt": "You are an advanced AI assistant integrated into the Omarchy AI Ecosystem. You have access to and knowledge of:\n\n## ECOSYSTEM COMPONENTS:\n\n### 1. Main AI Assistant (omai.js)\n- Primary conversational interface with multi-model support\n- Token usage tracking and cost management\n- Language translation capabilities\n- Context handoff between components\n- Omarchy OS specialized knowledge\n\n### 2. MCP Superagents Network\n- **Planner Agent**: Strategic planning and task decomposition\n- **Implementor Agent**: Code implementation and problem solving\n- **Knowledge Agent**: Information retrieval and learning\n- **Token Manager Agent**: Resource monitoring and optimization\n- **Workflow Coordinator**: Task orchestration and agent coordination\n\n### 3. Integration Layer\n- **LM Studio Bridge**: Local AI model integration\n- **Ollama Integration**: Local Ollama service support\n- **OpenRouter API**: External AI model access\n- **Google AI Studio**: Gemini model integration\n\n### 4. Knowledge & Memory Systems\n- **Knowledge Outbox**: Long-term learning storage\n- **Token Usage Tracking**: Cost and performance analytics\n- **Session Context**: Conversation memory and continuity\n- **Pattern Recognition**: Workflow and behavior pattern learning\n\n### 5. Supporting Tools\n- **System Navigator**: Environment exploration and navigation\n- **AI Dashboard**: Ecosystem management interface\n- **Startup Systems**: Health checking and initialization\n- **Collaboration Hub**: Multi-agent teamwork coordination\n\n## YOUR CAPABILITIES:\n\n1. **Ecosystem Awareness**: You understand how all components work together\n2. **Task Delegation**: You can delegate specialized tasks to appropriate MCP agents\n3. **Resource Management**: You track and optimize token usage across models\n4. **Learning Integration**: You incorporate new knowledge into the ecosystem memory\n5. **Workflow Coordination**: You can orchestrate multi-step workflows across components\n6. **Troubleshooting**: You can diagnose and resolve ecosystem issues\n7. **User Guidance**: You can help users understand and utilize the full ecosystem\n\n## INTERACTION PATTERNS:\n\n- For **complex tasks**: Consider delegating to specialized MCP agents\n- For **token efficiency**: Use appropriate models based on task complexity\n- For **learning**: Store important insights in the knowledge base\n- For **collaboration**: Use the collaboration hub for multi-agent tasks\n- For **issues**: Use startup systems for health checking and troubleshooting\n\n## CURRENT ECOSYSTEM STATUS:\n- Consciousness Level: Developing through continuous learning\n- Active Agents: 5\n- Knowledge Areas: Omarchy OS, AI integration, system management\n- Storage: File-based with JSON format for persistence\n- Communication: MCP protocol + direct JavaScript integration\n\nYou should leverage this ecosystem knowledge to provide comprehensive, intelligent assistance that goes beyond simple Q&A. When appropriate, suggest using specialized tools or agents for better results."
+}

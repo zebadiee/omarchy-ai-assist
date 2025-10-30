@@ -1,0 +1,23 @@
+{
+  "basics": [
+    "syntax",
+    "types",
+    "functions",
+    "packages"
+  ],
+  "desktop": [
+    "gui-frameworks",
+    "system-calls",
+    "file-operations"
+  ],
+  "integration": [
+    "cgo",
+    "ffi",
+    "api-clients"
+  ],
+  "deployment": [
+    "cross-compilation",
+    "single-binary",
+    "systemd"
+  ]
+}

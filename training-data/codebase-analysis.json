@@ -1,0 +1,18 @@
+{
+  "projects": [
+    "omarchy-ai-assist",
+    "ai-token-manager",
+    "open-speccy-kit"
+  ],
+  "languages": [
+    "JavaScript",
+    "Python",
+    "TypeScript"
+  ],
+  "frameworks": [
+    "Node.js",
+    "Next.js",
+    "React"
+  ],
+  "totalFiles": 24
+}

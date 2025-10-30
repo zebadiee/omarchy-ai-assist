@@ -1,0 +1,134 @@
+{
+  "workflows": {
+    "daily_startup": [
+      "Unlock with password/PIN",
+      "Check workspace layout (Super + 1-9)",
+      "Open essential apps (Super + Enter, Super + B)",
+      "Review notifications and system status",
+      "Start daily tasks"
+    ],
+    "window_organization": [
+      "Use workspaces for different activities",
+      "Super + Shift + number to move windows between workspaces",
+      "Use floating mode for dialogs and temporary windows",
+      "Tile related windows together for productivity"
+    ],
+    "customization_workflow": [
+      "Backup current config: omarchy-config-backup",
+      "Edit theme files in ~/.config/omarchy/",
+      "Test changes with omarchy-reload-config",
+      "Iterate until satisfied"
+    ]
+  },
+  "shortcuts": {
+    "essential": {
+      "Super + D": "Application menu",
+      "Super + R": "Run command",
+      "Super + Enter": "Terminal",
+      "Super + Q": "Close window",
+      "Super + F": "Toggle floating",
+      "Super + Arrow Keys": "Move window",
+      "Super + 1-9": "Switch workspace"
+    },
+    "advanced": {
+      "Super + Shift + Arrow": "Move window to workspace",
+      "Super + Ctrl + Arrow": "Resize window",
+      "Super + Tab": "Cycle workspaces",
+      "Super + L": "Cycle layout modes",
+      "Super + W": "Move window to next monitor"
+    },
+    "emergency": {
+      "Super + Shift + Escape": "Force quit dialog",
+      "Super + Ctrl + R": "Restart display server",
+      "Super + K": "Kill focused window",
+      "Ctrl + Alt + F1-F6": "Switch TTY sessions"
+    }
+  },
+  "customization": {
+    "themes": {
+      "locations": [
+        "~/.config/omarchy/theme.conf",
+        "~/.config/omarchy/colors.conf",
+        "/usr/share/omarchy/themes/"
+      ],
+      "properties": [
+        "background_color",
+        "foreground_color",
+        "accent_color",
+        "border_color",
+        "font_family",
+        "font_size"
+      ]
+    },
+    "panels": {
+      "positions": ["top", "bottom", "left", "right"],
+      "widgets": [
+        "clock",
+        "system_tray",
+        "workspace_switcher",
+        "app_launcher",
+        "system_monitor",
+        "network_indicator"
+      ]
+    }
+  },
+  "troubleshooting": {
+    "common_issues": {
+      "frozen_application": [
+        "Try Super + K to kill window",
+        "Use Super + Shift + Escape for force quit",
+        "Open terminal and run 'pkill appname'",
+        "Last resort: Super + Ctrl + Alt + Backspace"
+      ],
+      "display_glitches": [
+        "Restart display server: Super + Ctrl + R",
+        "Check GPU drivers: omarchy-gpu-check",
+        "Reset display config: omarchy-display-reset",
+        "Verify resolution in ~/.config/omarchy/display.conf"
+      ],
+      "audio_problems": [
+        "Run pavucontrol for audio settings",
+        "Check ALSA with alsamixer",
+        "Restart audio: omarchy-audio-restart",
+        "Verify device in ~/.config/omarchy/audio.conf"
+      ],
+      "network_issues": [
+        "Check status: omarchy-network-status",
+        "Restart network: omarchy-network-restart",
+        "Edit config: ~/.config/omarchy/network.conf",
+        "Use nm-connection-editor for GUI setup"
+      ]
+    }
+  },
+  "applications": {
+    "default_apps": {
+      "terminal": "gnome-terminal",
+      "file_manager": "nautilus",
+      "web_browser": "firefox",
+      "text_editor": "gedit",
+      "image_viewer": "eog",
+      "media_player": "vlc"
+    },
+    "installation": {
+      "package_manager": "omarchy-app-install",
+      "search": "omarchy-app-search <name>",
+      "remove": "omarchy-app-remove <name>",
+      "update": "omarchy-app-update",
+      "list": "omarchy-app-list"
+    }
+  },
+  "system_maintenance": {
+    "regular_tasks": [
+      "Clear cache: omarchy-cache-cleanup",
+      "Update system: omarchy-update",
+      "Check logs: ~/.local/share/omarchy/logs/",
+      "Backup config: omarchy-config-backup"
+    ],
+    "monitoring": {
+      "system_monitor": "omarchy-system-monitor",
+      "process_manager": "omarchy-process-manager",
+      "resource_usage": "omarchy-resource-monitor",
+      "disk_usage": "omarchy-disk-usage"
+    }
+  }
+}

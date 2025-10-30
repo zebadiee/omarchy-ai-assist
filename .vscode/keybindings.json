@@ -1,0 +1,47 @@
+[
+  // Omarchy AI Assist - VS Code Keybindings
+  // Add these to your VS Code keybindings.json or copy to %APPDATA%/Code/User/keybindings.json
+
+  {
+    "key": "ctrl+alt+p",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "pln " },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+alt+i",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "imp " },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+alt+k",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "knw " },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+alt+o",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "oai " },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+alt+l",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "lmsc " },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+alt+s",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "ostatus\n" },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+alt+h",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "ai_help\n" },
+    "when": "terminalFocus"
+  }
+]

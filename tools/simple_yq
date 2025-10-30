@@ -1,0 +1,62 @@
+#!/bin/bash
+# Simple YAML parser for HANDSHAKE.md frontmatter
+# Usage: simple_yq '.path.to.field' file.yaml
+
+QUERY="$1"
+FILE="$2"
+
+# Extract YAML frontmatter (between --- markers)
+YAML_CONTENT=$(sed -n '/^---$/,/^---$/p' "$FILE" | sed '1d;$d')
+
+# Simple path extraction using sed
+case "$QUERY" in
+    ".entrypoint.control")
+        echo "$YAML_CONTENT" | grep "control:" | sed 's/.*control: *//; s/"//g'
+        ;;
+    ".entrypoint.constraints")
+        echo "$YAML_CONTENT" | grep "constraints:" | sed 's/.*constraints: *//; s/"//g'
+        ;;
+    ".entrypoint.subagents.pln")
+        echo "$YAML_CONTENT" | grep -A1 "subagents:" | grep "pln:" | sed 's/.*pln: *//; s/"//g'
+        ;;
+    ".entrypoint.subagents.imp")
+        echo "$YAML_CONTENT" | grep -A2 "subagents:" | grep "imp:" | sed 's/.*imp: *//; s/"//g'
+        ;;
+    ".entrypoint.subagents.knw")
+        echo "$YAML_CONTENT" | grep -A3 "subagents:" | grep "knw:" | sed 's/.*knw: *//; s/"//g'
+        ;;
+    ".entrypoint.subagents.mem")
+        echo "$YAML_CONTENT" | grep -A4 "subagents:" | grep "mem:" | sed 's/.*mem: *//; s/"//g'
+        ;;
+    ".routing.tiers.x1")
+        echo "$YAML_CONTENT" | grep -A1 "x1:" | grep '\- ' | sed 's/.*- *//; s/"//g' | head -1
+        ;;
+    ".routing.tiers.x0")
+        echo "$YAML_CONTENT" | grep -A2 "x0:" | grep '\- ' | sed 's/.*- *//; s/"//g' | head -1
+        ;;
+    ".routing.tiers.free")
+        echo "$YAML_CONTENT" | grep -A3 "free:" | grep '\- ' | sed 's/.*- *//; s/"//g' | head -1
+        ;;
+    ".routing.models.ollama.free")
+        echo "$YAML_CONTENT" | grep -A2 "ollama:" | grep "free:" | sed 's/.*free: *//; s/"//g'
+        ;;
+    ".routing.models.ollama.x0")
+        echo "$YAML_CONTENT" | grep -A2 "ollama:" | grep "x0:" | sed 's/.*x0: *//; s/"//g'
+        ;;
+    ".routing.models.ollama.x1")
+        echo "$YAML_CONTENT" | grep -A2 "ollama:" | grep "x1:" | sed 's/.*x1: *//; s/"//g'
+        ;;
+    ".routing.models.lmstudio.free")
+        echo "$YAML_CONTENT" | grep -A2 "lmstudio:" | grep "free:" | sed 's/.*free: *//; s/"//g'
+        ;;
+    ".routing.models.lmstudio.x0")
+        echo "$YAML_CONTENT" | grep -A2 "lmstudio:" | grep "x0:" | sed 's/.*x0: *//; s/"//g'
+        ;;
+    ".routing.models.lmstudio.x1")
+        echo "$YAML_CONTENT" | grep -A2 "lmstudio:" | grep "x1:" | sed 's/.*x1: *//; s/"//g'
+        ;;
+    *)
+        echo "Unknown query: $QUERY" >&2
+        exit 1
+        ;;
+esac

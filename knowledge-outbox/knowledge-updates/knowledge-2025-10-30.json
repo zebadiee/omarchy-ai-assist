@@ -1,0 +1,68 @@
+{
+  "nodes": [
+    {
+      "id": "navigation",
+      "type": "category",
+      "label": "navigation",
+      "primary": "omarchy-navigator",
+      "contributors": [
+        "claude-code",
+        "gemini-ai"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    },
+    {
+      "id": "coding",
+      "type": "category",
+      "label": "coding",
+      "primary": "codex-copilot",
+      "contributors": [
+        "openai-assistant",
+        "claude-code"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    },
+    {
+      "id": "system-management",
+      "type": "category",
+      "label": "system-management",
+      "primary": "claude-code",
+      "contributors": [
+        "omarchy-navigator",
+        "openai-assistant"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    },
+    {
+      "id": "troubleshooting",
+      "type": "category",
+      "label": "troubleshooting",
+      "primary": "omarchy-navigator",
+      "contributors": [
+        "claude-code",
+        "gemini-ai",
+        "openai-assistant"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    },
+    {
+      "id": "customization",
+      "type": "category",
+      "label": "customization",
+      "primary": "omarchy-navigator",
+      "contributors": [
+        "gemini-ai",
+        "claude-code"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    }
+  ],
+  "edges": [],
+  "categories": [
+    "navigation",
+    "coding",
+    "system-management",
+    "troubleshooting",
+    "customization"
+  ]
+}

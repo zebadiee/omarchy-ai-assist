@@ -1,0 +1,140 @@
+{
+  "nodes": [
+    {
+      "id": "navigation",
+      "type": "category",
+      "label": "navigation",
+      "primary": "omarchy-navigator",
+      "contributors": [
+        "claude-code",
+        "gemini-ai"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    },
+    {
+      "id": "coding",
+      "type": "category",
+      "label": "coding",
+      "primary": "codex-copilot",
+      "contributors": [
+        "openai-assistant",
+        "claude-code"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    },
+    {
+      "id": "system-management",
+      "type": "category",
+      "label": "system-management",
+      "primary": "claude-code",
+      "contributors": [
+        "omarchy-navigator",
+        "openai-assistant"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    },
+    {
+      "id": "troubleshooting",
+      "type": "category",
+      "label": "troubleshooting",
+      "primary": "omarchy-navigator",
+      "contributors": [
+        "claude-code",
+        "gemini-ai",
+        "openai-assistant"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    },
+    {
+      "id": "customization",
+      "type": "category",
+      "label": "customization",
+      "primary": "omarchy-navigator",
+      "contributors": [
+        "gemini-ai",
+        "claude-code"
+      ],
+      "lastUpdated": "2025-10-29T17:03:49.784Z"
+    },
+    {
+      "id": "omarchy-go-1761770753122",
+      "type": "knowledge",
+      "from": "omarchy-go-training",
+      "category": "foundations",
+      "knowledge": "Omarchy is built on Arch Linux with Hyprland, emphasizing minimalism and keyboard-driven workflows. Go tools must integrate seamlessly with this philosophy.",
+      "timestamp": "2025-10-29T20:45:53.122Z"
+    },
+    {
+      "id": "omarchy-go-1761770753123",
+      "type": "knowledge",
+      "from": "omarchy-go-training",
+      "category": "desktop-patterns",
+      "knowledge": "Go tools must be Wayland-compatible, integrate with Waybar for status, Wofi for menus, and respect Hyprland hotkeys. Single binary deployment preferred.",
+      "timestamp": "2025-10-29T20:45:53.123Z"
+    },
+    {
+      "id": "omarchy-go-1761770753123",
+      "type": "knowledge",
+      "from": "omarchy-go-training",
+      "category": "go-integration",
+      "knowledge": "Go tools should use single binary deployment, static linking, systemd user services, and follow freedesktop.org standards for desktop integration.",
+      "timestamp": "2025-10-29T20:45:53.123Z"
+    },
+    {
+      "id": "omarchy-go-1761770753124",
+      "type": "knowledge",
+      "from": "omarchy-go-training",
+      "category": "file-conventions",
+      "knowledge": "Use kebab-case naming, ~/.config/omarchy/ for configs, ~/.local/bin/ for user tools, follow freedesktop.org naming conventions.",
+      "timestamp": "2025-10-29T20:45:53.124Z"
+    },
+    {
+      "id": "omarchy-go-1761770753124",
+      "type": "knowledge",
+      "from": "omarchy-go-training",
+      "category": "build-deployment",
+      "knowledge": "Use static linking with CGO_ENABLED=0, strip binaries with -ldflags=\"-s -w\", deploy to ~/.local/bin/, create systemd user services.",
+      "timestamp": "2025-10-29T20:45:53.124Z"
+    },
+    {
+      "id": "omarchy-go-1761770753124",
+      "type": "knowledge",
+      "from": "omarchy-go-training",
+      "category": "config-management",
+      "knowledge": "Use YAML configs in ~/.config/omarchy/tool-name/, implement SIGHUP reload, fsnotify for watching, JSON schema validation.",
+      "timestamp": "2025-10-29T20:45:53.124Z"
+    },
+    {
+      "id": "omarchy-go-1761770753125",
+      "type": "knowledge",
+      "from": "omarchy-go-training",
+      "category": "keyboard-workflows",
+      "knowledge": "Design keyboard-first interfaces, integrate with Wofi for menus, avoid global hotkeys, use Hyprland for system-level binds.",
+      "timestamp": "2025-10-29T20:45:53.125Z"
+    },
+    {
+      "id": "omarchy-go-1761770753125",
+      "type": "knowledge",
+      "from": "omarchy-go-training",
+      "category": "ai-development",
+      "knowledge": "Use provider-agnostic subagents (#pln, #imp, #knw) for Go development, follow Omarchy patterns, generate keyboard-first interfaces.",
+      "timestamp": "2025-10-29T20:45:53.125Z"
+    }
+  ],
+  "edges": [],
+  "categories": [
+    "navigation",
+    "coding",
+    "system-management",
+    "troubleshooting",
+    "customization",
+    "foundations",
+    "desktop-patterns",
+    "go-integration",
+    "file-conventions",
+    "build-deployment",
+    "config-management",
+    "keyboard-workflows",
+    "ai-development"
+  ]
+}

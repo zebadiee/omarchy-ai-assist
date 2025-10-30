@@ -1,0 +1,134 @@
+{
+  "metadata": {
+    "exportTime": "2025-10-29T21:46:06.440Z",
+    "source": "omarchy-ai-assist",
+    "version": "1.0.0",
+    "purpose": "lm-analysis"
+  },
+  "roomContext": {
+    "context": [
+      {
+        "source": "omassistant",
+        "topic": "maintenance",
+        "summary": "..."
+      },
+      {
+        "source": "omai",
+        "topic": "customization",
+        "summary": "..."
+      },
+      {
+        "source": "omarchy-navigator",
+        "topic": "navigation",
+        "summary": "help me navigate workspaces",
+        "timestamp": "2025-10-29T16:58:03.520Z"
+      },
+      {
+        "source": "omarchy-navigator",
+        "topic": "customization",
+        "summary": "how do I customize my desktop theme",
+        "timestamp": "2025-10-29T16:58:12.221Z"
+      },
+      {
+        "source": "omarchy-navigator",
+        "topic": "general",
+        "summary": "my app is frozen what do I do",
+        "timestamp": "2025-10-29T16:58:19.023Z"
+      },
+      {
+        "source": "omarchy-navigator",
+        "topic": "system-info",
+        "summary": "show me system information",
+        "timestamp": "2025-10-29T16:58:34.792Z"
+      }
+    ],
+    "messageCount": 0
+  },
+  "mcpSystem": {
+    "agents": 4,
+    "active": 4,
+    "details": {
+      "tokenManager": {
+        "status": "active",
+        "tokensProcessed": 13327,
+        "optimization": "dynamic"
+      },
+      "workflowCoordinator": {
+        "status": "active",
+        "strategies": [
+          "sequential",
+          "parallel",
+          "hybrid",
+          "adaptive"
+        ],
+        "activeWorkflows": 0
+      },
+      "knowledgeSuperagent": {
+        "status": "active",
+        "patterns": [],
+        "insights": [
+          "Strong collaboration patterns detected"
+        ]
+      },
+      "implementorSuperagent": {
+        "status": "active",
+        "components": [
+          "go-system-monitor",
+          "omarchy-launcher",
+          "mcp-integration"
+        ],
+        "languages": [
+          "go",
+          "javascript",
+          "bash"
+        ]
+      }
+    }
+  },
+  "systemInfo": {
+    "platform": "linux",
+    "nodeVersion": "v25.1.0",
+    "memory": {
+      "rss": 54345728,
+      "heapTotal": 5115904,
+      "heapUsed": 4166536,
+      "external": 1505527,
+      "arrayBuffers": 10511
+    },
+    "uptime": 0.025835009,
+    "environment": "omarchy-os",
+    "capabilities": [
+      "mcp-superagents",
+      "token-load-balancing",
+      "go-development",
+      "ai-collaboration",
+      "desktop-integration"
+    ]
+  },
+  "knowledgeGraph": {
+    "nodes": [],
+    "edges": [],
+    "categories": [
+      "system",
+      "ai",
+      "development",
+      "integration"
+    ]
+  },
+  "summary": {
+    "totalEntries": 14,
+    "activeAgents": 4,
+    "readiness": "operational",
+    "recommendations": [
+      "Analyze token optimization patterns",
+      "Review workflow efficiency",
+      "Explore expansion opportunities"
+    ]
+  },
+  "analysisPrompts": [
+    "Analyze the collaboration patterns between MCP superagents",
+    "Identify optimization opportunities in token usage",
+    "Suggest improvements to the workflow coordination",
+    "Evaluate system architecture for scalability"
+  ]
+}

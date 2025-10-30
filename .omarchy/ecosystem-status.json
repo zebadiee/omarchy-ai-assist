@@ -1,0 +1,74 @@
+{
+  "initialized": true,
+  "lastCheck": "2025-10-30T12:13:30.115Z",
+  "components": {
+    "aiAssist": {
+      "name": "omarchy-ai-assist",
+      "path": "/home/zebadiee/Documents/omarchy-ai-assist/omarchy-ai-assist",
+      "config": "omai.js",
+      "env": "/home/zebadiee/.npm-global/bin/.env",
+      "mcp": false,
+      "status": "missing"
+    },
+    "tokenManager": {
+      "name": "ai-token-manager",
+      "path": "/home/zebadiee/Documents/omarchy-ai-assist/ai-token-manager",
+      "config": "src/engine/ai_core.py",
+      "env": "../ai-token-manager/configs/infra/token_budgets.toml",
+      "mcp": false,
+      "status": "missing"
+    },
+    "mcpSuperagents": {
+      "name": "mcp-superagents",
+      "path": "/home/zebadiee/Documents/omarchy-ai-assist/mcp-superagents",
+      "config": "mcp-superagents.json",
+      "launcher": "mcp-superagent-launcher.js",
+      "mcp": true,
+      "status": "found",
+      "configExists": false,
+      "mcpReady": false
+    },
+    "lmStudio": {
+      "name": "lm-studio-integration",
+      "path": "/home/zebadiee/Documents/omarchy-ai-assist/lm-studio-integration.js",
+      "config": "lm-studio-integration.js",
+      "mcp": false,
+      "status": "found",
+      "configExists": false
+    },
+    "ollama": {
+      "name": "ollama-integration",
+      "path": "/home/zebadiee/Documents/omarchy-ai-assist/ollama-integration.js",
+      "config": "ollama-integration.js",
+      "mcp": false,
+      "status": "found",
+      "configExists": false
+    },
+    "navigator": {
+      "name": "omarchy-navigator",
+      "path": "/home/zebadiee/Documents/omarchy-ai-assist/omarchy-navigator.js",
+      "config": "omarchy-navigator.js",
+      "mcp": false,
+      "status": "found",
+      "configExists": false
+    },
+    "goLauncher": {
+      "name": "omarchy-launcher",
+      "path": "/home/zebadiee/Documents/omarchy-ai-assist/omarchy-launcher.go",
+      "config": "omarchy-launcher.go",
+      "mcp": false,
+      "status": "found",
+      "configExists": false
+    }
+  },
+  "issues": [
+    "omarchy-ai-assist: Component not found",
+    "ai-token-manager: Component not found",
+    "mcp-superagents: Missing config file",
+    "lm-studio-integration: Missing config file",
+    "ollama-integration: Missing config file",
+    "omarchy-navigator: Missing config file",
+    "omarchy-launcher: Missing config file"
+  ],
+  "recommendations": []
+}

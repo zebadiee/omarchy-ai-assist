@@ -1,0 +1,14 @@
+mode: sandbox
+safeops: true
+memory_path: ./memory/mem.jsonl
+logs_path: ./logs/
+sandbox_root: ./kit/
+permissions:
+  write_system: false
+  execute_safeops: true
+  propose_changes: true
+training_stage: sandbox  # sandbox -> advisor -> operator -> autonomous
+llm_router:
+  primary: gemini
+  fallback: ollama:gemma
+  max_autonomy: observe
