@@ -57,18 +57,55 @@ health:
 monitor:
 	@./quantum-forge-monitor
 
-# --- Omarchy R&D / BYOX ---
-rnd-build:
-	@mkdir -p .cache/go-build .cache/go-mod
-	@( cd RnD/byox-search-engine/cmd/searchd && GOCACHE="$(CURDIR)/.cache/go-build" GOMODCACHE="$(CURDIR)/.cache/go-mod" go build -o ../../../searchd )
+# --- Omarchy R&D / BYOX (repo-local caches, clean teardown) ---
+GO_BUILD_CACHE := .cache/go-build
+GO_MOD_CACHE   := .cache/go-mod
+SEARCHD_BIN    := RnD/searchd
+SEARCHD_PID    := .cache/searchd.pid
+
+.PHONY: rnd-prep rnd-build rnd-run rnd-search rnd-stop import-byox
+
+rnd-prep:
+	@mkdir -p $(GO_BUILD_CACHE) $(GO_MOD_CACHE) .cache
+	@echo "⬢ prep: using repo-local Go caches → $(GO_BUILD_CACHE), $(GO_MOD_CACHE)"
+
+rnd-build: rnd-prep
+	@( cd RnD/byox-search-engine/cmd/searchd && \
+		GOCACHE=$(abspath $(GO_BUILD_CACHE)) \
+		GOMODCACHE=$(abspath $(GO_MOD_CACHE)) \
+		go build -o ../../../searchd )
+	@echo "✅ built $(SEARCHD_BIN)"
+
 rnd-run: rnd-build
-	@bash -lc "./RnD/searchd & pid=\$$!; sleep 1; curl -s localhost:8188/ping || true; kill \$$pid >/dev/null 2>&1 || true"
-rnd-search: rnd-build
-	@bash -lc "./RnD/searchd & pid=\$$!; sleep 1; if command -v jq >/dev/null 2>&1; then curl -s localhost:8188/search -H 'Content-Type: application/json' -d '{\"q\":\"test\"}' | jq .; else curl -s localhost:8188/search -H 'Content-Type: application/json' -d '{\"q\":\"test\"}'; fi; kill \$$pid >/dev/null 2>&1 || true"
+	@echo "▶ starting $(SEARCHD_BIN) on :8188"
+	@./$(SEARCHD_BIN) >/dev/null 2>&1 & echo $$! > $(SEARCHD_PID)
+	@printf "⏳ waiting for server"; for i in $$(seq 1 20); do \
+		sleep 0.2; \
+		curl -sf localhost:8188/ping >/dev/null 2>&1 && break || printf "."; \
+	done; echo
+	@curl -s localhost:8188/ping | (jq . 2>/dev/null || cat)
+	@echo "ℹ pid: $$(cat $(SEARCHD_PID))"
+
+rnd-search:
+	@curl -s localhost:8188/search \
+		-H "Content-Type: application/json" \
+		-d '{"q":"test"}' | (jq . 2>/dev/null || cat)
+
+rnd-stop:
+	@touch $(SEARCHD_PID) >/dev/null 2>&1 || true
+	@if [ -s "$(SEARCHD_PID)" ]; then \
+		echo "■ stopping searchd ($$(cat $(SEARCHD_PID)))"; \
+		kill $$(cat $(SEARCHD_PID)) >/dev/null 2>&1 || true; \
+		rm -f $(SEARCHD_PID); \
+	else \
+		echo "■ searchd not running"; \
+	fi
+
 import-byox:
 	@[ "${X:-}" ] || (echo "usage: make import-byox X=search-engine" && exit 1)
-	git remote add byox https://github.com/codecrafters-io/build-your-own-x.git 2>/dev/null || true
-	git sparse-checkout init --cone && git sparse-checkout set projects/${X}
-	git pull byox master
+	@git remote add byox https://github.com/codecrafters-io/build-your-own-x.git 2>/dev/null || true
+	@git sparse-checkout init --cone
+	@git sparse-checkout set projects/${X}
+	@git pull byox master
 launch-rnd:
 	./scripts/omarchy_rnd_bootstrap.sh

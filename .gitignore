@@ -11,3 +11,7 @@
 *.env.local
 *.env.production
 .env.staging
+
+# R&D bootstrap artifacts
+.cache/
+RnD/searchd

@@ -110,8 +110,9 @@ SAFEOPS=0 git commit --no-verify -m "🧪 R&D One-Shot: BYOX Search Engine + Tel
 git push -u origin feature/rd-ready-to-build || true
 
 # ─────────────────────────── 8️⃣ Smoke
-make rnd-run || true
-make rnd-search || true
+make rnd-run
+make rnd-search
+make rnd-stop
 
 # ─────────────────────────── 9️⃣ Desktop launcher
 DESK="$HOME/.local/share/applications/Omarchy-RnD.desktop"
