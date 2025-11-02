@@ -116,6 +116,12 @@ cat > "$CONT_DIR/config.json" <<'JSON'
 JSON
 echo "🧩 Continue config ready: ${PROJECT_ROOT}/.continue/config.json → local Omarchy agent."
 
+# --- Ensure BYOX demo + R&D smoke ----------------------------------------
+make ensure-byox-default || true
+make rnd-run
+make rnd-search
+make rnd-stop
+
 # --- Launch VSCodium workspace (optional) --------------------------------
 if command -v "$EDITOR_BIN" >/dev/null 2>&1; then
   echo "🧰 Launching ${EDITOR_BIN} with Omarchy workspace…"

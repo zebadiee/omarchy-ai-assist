@@ -64,11 +64,12 @@ SEARCHD_BIN    := RnD/searchd
 SEARCHD_PID    := .cache/searchd.pid
 BYOX_CACHE     := .cache/byox-repo
 BYOX_MODULES   := RnD/byox-modules
+BYOX_REMOTE    := https://github.com/codecrafters-io/build-your-own-x.git
 
-.PHONY: rnd-prep rnd-build rnd-run rnd-search rnd-stop import-byox
+.PHONY: rnd-prep rnd-build rnd-run rnd-search rnd-stop rnd-clean import-byox import-byox-offline ensure-byox-default
 
 rnd-prep:
-	@mkdir -p $(GO_BUILD_CACHE) $(GO_MOD_CACHE) .cache
+	@mkdir -p $(GO_BUILD_CACHE) $(GO_MOD_CACHE) .cache $(BYOX_MODULES)
 	@echo "⬢ prep: using repo-local Go caches → $(GO_BUILD_CACHE), $(GO_MOD_CACHE)"
 
 rnd-build: rnd-prep
@@ -99,30 +100,38 @@ rnd-stop:
 		echo "■ stopping searchd ($$(cat $(SEARCHD_PID)))"; \
 		kill $$(cat $(SEARCHD_PID)) >/dev/null 2>&1 || true; \
 		rm -f $(SEARCHD_PID); \
-	else \
-		echo "■ searchd not running"; \
-	fi
+	else echo "■ searchd not running"; fi
+
+rnd-clean:
+	@rm -rf $(GO_BUILD_CACHE) $(GO_MOD_CACHE) $(SEARCHD_BIN) .cache/searchd.pid
+	@echo "🧹 RnD workspace cleaned"
 
 import-byox:
-	@[ "$${X:-}" ] || (echo "usage: make import-byox X=search-engine" && exit 1)
+	@[ "$${X:-}" ] || (echo "usage: make import-byox X=<module>"; exit 1)
 	@mkdir -p $(BYOX_CACHE) $(BYOX_MODULES)
 	@if [ ! -d "$(BYOX_CACHE)/.git" ]; then \
-		git clone --depth 1 https://github.com/codecrafters-io/build-your-own-x.git $(BYOX_CACHE); \
-	else \
-		git -C $(BYOX_CACHE) pull --ff-only; \
+		echo "⬇ cloning BYOX into $(BYOX_CACHE)"; \
+		git clone --filter=tree:0 --depth 1 $(BYOX_REMOTE) $(BYOX_CACHE) || true; \
 	fi
 	@if [ -d "$(BYOX_CACHE)/projects/$(X)" ]; then \
-		mkdir -p $(BYOX_MODULES)/$(X); \
+		echo "📦 importing real BYOX project: $(X)"; \
+		mkdir -p "$(BYOX_MODULES)/$(X)"; \
 		rsync -a --delete "$(BYOX_CACHE)/projects/$(X)/" "$(BYOX_MODULES)/$(X)/"; \
-		echo "✅ imported BYOX module → $(BYOX_MODULES)/$(X)"; \
+		echo "✅ imported → $(BYOX_MODULES)/$(X)"; \
 	else \
-		echo "⚠ project '$(X)' not found upstream; seeding placeholder in $(BYOX_MODULES)/$(X)"; \
-		mkdir -p $(BYOX_MODULES)/$(X); \
-		echo "# BYOX module $(X)" > $(BYOX_MODULES)/$(X)/README.md; \
-		echo "" >> $(BYOX_MODULES)/$(X)/README.md; \
-		echo "Source: https://github.com/codecrafters-io/build-your-own-x" >> $(BYOX_MODULES)/$(X)/README.md; \
-		echo "" >> $(BYOX_MODULES)/$(X)/README.md; \
-		echo "Placeholder generated on $$(date -u +%Y-%m-%dT%H:%M:%SZ)." >> $(BYOX_MODULES)/$(X)/README.md; \
+		$(MAKE) import-byox-offline X=$(X); \
 	fi
+
+import-byox-offline:
+	@mkdir -p "$(BYOX_MODULES)/$(X)"
+	@printf "# Placeholder: %s\n\nUpstream: %s\nTimestamp: %s\n" \
+		"$(X)" "$(BYOX_REMOTE)" "$$(date -u +%FT%TZ)" \
+		> "$(BYOX_MODULES)/$(X)/README.md"
+	@echo "⚠ project '$(X)' not found upstream; seeded placeholder in $(BYOX_MODULES)/$(X)"
+
+ensure-byox-default:
+	@[ -d "RnD/byox-search-engine" ] || { \
+		echo "🧪 seeding default BYOX demo (search engine)"; \
+		$(MAKE) import-byox X=search-engine || true; }
 launch-rnd:
 	./scripts/omarchy_rnd_bootstrap.sh
