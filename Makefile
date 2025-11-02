@@ -56,3 +56,18 @@ health:
 
 monitor:
 	@./quantum-forge-monitor
+
+# --- Omarchy R&D / BYOX ---
+rnd-build:
+	( cd RnD/byox-search-engine/cmd/searchd && go build -o ../../../searchd )
+rnd-run: rnd-build
+	./searchd & sleep 1 && curl -s localhost:8188/ping || true
+rnd-search:
+	curl -s localhost:8188/search -H "Content-Type: application/json" -d '{"q":"test"}' | jq .
+import-byox:
+	@[ "${X:-}" ] || (echo "usage: make import-byox X=search-engine" && exit 1)
+	git remote add byox https://github.com/codecrafters-io/build-your-own-x.git 2>/dev/null || true
+	git sparse-checkout init --cone && git sparse-checkout set projects/${X}
+	git pull byox master
+launch-rnd:
+	./scripts/omarchy_rnd_bootstrap.sh
