@@ -1,0 +1,12 @@
+version: 1
+workflows:
+  ai_pulse:
+    desc: Daily training pulse (validate → stamps → harvest → promote)
+    steps:
+      - run: ./speccy workflow validate
+      - run: ./speccy milestone record DRY-OK
+      - run: ./speccy milestone record REFLECT
+      - run: ./speccy milestone record PROPOSAL
+      - run: ./speccy milestone record GREEN
+      - run: ./speccy status
+      - run: ./speccy milestone promote

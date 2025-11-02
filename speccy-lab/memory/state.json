@@ -1,0 +1,12 @@
+{
+  "stage": "observer",
+  "metrics": {
+    "validate_pass": 0,
+    "consecutive_green_days": 0,
+    "dry_runs": 0,
+    "reflections": 0,
+    "proposals": 0,
+    "safeops_violations": 0
+  },
+  "completed": []
+}

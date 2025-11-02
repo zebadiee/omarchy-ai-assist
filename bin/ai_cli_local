@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# Minimal: bypass switchboard and call local directly via your runner
+export LOCAL_BASE_URL="${LOCAL_BASE_URL:-http://localhost:11434/v1}"
+export LOCAL_MODEL="${LOCAL_MODEL:-llama3.1:8b}"
+PROMPT="$(cat)"
+echo "$PROMPT" | bin/local_ai.sh session

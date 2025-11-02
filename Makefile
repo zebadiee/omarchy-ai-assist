@@ -62,6 +62,8 @@ GO_BUILD_CACHE := .cache/go-build
 GO_MOD_CACHE   := .cache/go-mod
 SEARCHD_BIN    := RnD/searchd
 SEARCHD_PID    := .cache/searchd.pid
+BYOX_CACHE     := .cache/byox-repo
+BYOX_MODULES   := RnD/byox-modules
 
 .PHONY: rnd-prep rnd-build rnd-run rnd-search rnd-stop import-byox
 
@@ -103,9 +105,24 @@ rnd-stop:
 
 import-byox:
 	@[ "$${X:-}" ] || (echo "usage: make import-byox X=search-engine" && exit 1)
-	@git remote add byox https://github.com/codecrafters-io/build-your-own-x.git 2>/dev/null || true
-	@git sparse-checkout init --cone
-	@git sparse-checkout set projects/$(X)
-	@git pull byox master
+	@mkdir -p $(BYOX_CACHE) $(BYOX_MODULES)
+	@if [ ! -d "$(BYOX_CACHE)/.git" ]; then \
+		git clone --depth 1 https://github.com/codecrafters-io/build-your-own-x.git $(BYOX_CACHE); \
+	else \
+		git -C $(BYOX_CACHE) pull --ff-only; \
+	fi
+	@if [ -d "$(BYOX_CACHE)/projects/$(X)" ]; then \
+		mkdir -p $(BYOX_MODULES)/$(X); \
+		rsync -a --delete "$(BYOX_CACHE)/projects/$(X)/" "$(BYOX_MODULES)/$(X)/"; \
+		echo "✅ imported BYOX module → $(BYOX_MODULES)/$(X)"; \
+	else \
+		echo "⚠ project '$(X)' not found upstream; seeding placeholder in $(BYOX_MODULES)/$(X)"; \
+		mkdir -p $(BYOX_MODULES)/$(X); \
+		echo "# BYOX module $(X)" > $(BYOX_MODULES)/$(X)/README.md; \
+		echo "" >> $(BYOX_MODULES)/$(X)/README.md; \
+		echo "Source: https://github.com/codecrafters-io/build-your-own-x" >> $(BYOX_MODULES)/$(X)/README.md; \
+		echo "" >> $(BYOX_MODULES)/$(X)/README.md; \
+		echo "Placeholder generated on $$(date -u +%Y-%m-%dT%H:%M:%SZ)." >> $(BYOX_MODULES)/$(X)/README.md; \
+	fi
 launch-rnd:
 	./scripts/omarchy_rnd_bootstrap.sh

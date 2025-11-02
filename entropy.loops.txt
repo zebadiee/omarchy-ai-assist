@@ -1,0 +1,33 @@
+# Entropy Loop Report
+
+Modules scanned (21): om-acc-verify, om-agent, om-agent-health, om-aks-prepend, om-aks-verify, om-contract, om-freeze, om-guard, om-health, om-obs-ensure, om-obs-set, om-omega, om-preflight, om-release, om-sem-cache, om-shim, om-shra, om-usage, om-vbh-prepend, om-vbh-verify, om-verify
+
+## Loops
+- none detected (graph acyclic)
+
+## Verbs
+- om-acc-verify: support
+- om-agent: route
+- om-agent-health: monitor
+- om-aks-prepend: support
+- om-aks-verify: enforce
+- om-contract: support
+- om-freeze: support
+- om-guard: guard
+- om-health: support
+- om-obs-ensure: ensure
+- om-obs-set: seed
+- om-omega: support
+- om-preflight: budget
+- om-release: support
+- om-sem-cache: cache
+- om-shim: support
+- om-shra: hash
+- om-usage: report
+- om-vbh-prepend: signal
+- om-vbh-verify: enforce
+- om-verify: support
+
+## Notes
+- Retired: om-aks-verify, om-3lh-verify
+- Core loop label: om-freeze

@@ -1,0 +1,10 @@
+version: 1
+workflows:
+  ai_chatpulse:
+    desc: Ask a few stock questions, log reflections, then harvest/promote
+    steps:
+      - run: ./speccy chat --once "sway reload configuration"
+      - run: ./speccy chat --once "hyprland move/resize binds"
+      - run: ./speccy chat --once "systemd timer list commands"
+      - run: ./speccy status
+      - run: ./speccy milestone promote

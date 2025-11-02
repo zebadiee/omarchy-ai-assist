@@ -1,0 +1,10 @@
+version: 1
+workflows:
+  software_update:
+    desc: Consolidate system, plan update, check status, and attempt promotion
+    steps:
+      - run: ./speccy kit condense-packs
+      - run: python3 speccy-kit/tools/lesson_compactor.py
+      - run: ./speccy kit memory-gc
+      - run: ./speccy status
+      - run: ./speccy milestone promote

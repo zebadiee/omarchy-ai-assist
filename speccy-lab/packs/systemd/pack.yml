@@ -1,0 +1,10 @@
+id: systemd
+version: 1.0.0
+license: LGPL-2.1+
+description: 'Systemd service unit configuration and management knowledge'
+sources:
+  - path: sources/systemd-*.md
+normalize:
+  max_chars: 1200
+  overlap: 120
+fields: [pack_id, source, sha256, text]

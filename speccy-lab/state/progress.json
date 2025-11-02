@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "current_stage": "advisor",
+  "completed": [
+    {
+      "stage": "observer",
+      "ts": "2025-10-30T20:55:13+00:00",
+      "promoted_to": "advisor"
+    }
+  ],
+  "metrics": {
+    "min_dry_runs": 3,
+    "safeops_violations": 0,
+    "reflections": 6,
+    "proposals": 6,
+    "validate_pass": 4,
+    "safeops_exec_ok": 0,
+    "daily_cycles": 0,
+    "lessons_completed": 0,
+    "consecutive_green_days": 1,
+    "last_cycle_day": "2025-10-30"
+  },
+  "started_at": "$(date -Is)",
+  "last_updated": 1761857797.442655
+}

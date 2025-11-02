@@ -1,0 +1,10 @@
+id: hyprland
+version: 1.0.0
+license: MIT
+description: 'Hyprland window manager configuration and usage knowledge'
+sources:
+  - path: sources/hyprland-*.md
+normalize:
+  max_chars: 1200
+  overlap: 120
+fields: [pack_id, source, sha256, text]

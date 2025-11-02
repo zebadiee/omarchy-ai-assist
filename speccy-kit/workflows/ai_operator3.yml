@@ -1,0 +1,8 @@
+version: 1
+workflows:
+  ai_operator3:
+    desc: Create & index mako pack; verify via chat; status & auto-promotion
+    steps:
+      - run: ./speccy lesson operator-newpack
+      - run: ./speccy status
+      - run: ./speccy milestone promote auto

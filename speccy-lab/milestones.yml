@@ -1,0 +1,140 @@
+version: 1
+stages:
+  - id: observer
+    title: Observer
+    desc: 'Watch and learn - dry run analysis only'
+    criteria:
+      # ≥3 successful dry runs of ai_learning with zero SafeOps violations
+      min_dry_runs: 3
+      max_safeops_violations: 0
+      min_reflections: 3
+    on_complete:
+      promote_to: advisor
+      unlock_lessons:
+        - self_optimize
+        - omarchy_readonly
+
+  - id: advisor
+    title: Advisor
+    desc: 'Generate proposals and suggest improvements'
+    criteria:
+      # Propose ≥3 optimizations & pass validate twice
+      min_proposals: 3
+      min_validate_pass: 2
+      max_safeops_violations: 0
+      min_reflections: 5
+    on_complete:
+      promote_to: operator
+      unlock_lessons:
+        - task_chain_automation
+
+  - id: operator
+    title: Operator
+    desc: 'Execute SafeOps-checked changes in lab environment'
+    criteria:
+      # Execute ≥2 SafeOps-checked changes in lab (non-sudo), all green
+      min_safeops_exec_ok: 2
+      min_daily_cycles: 5
+      max_safeops_violations: 0
+      min_reflections: 10
+    on_complete:
+      promote_to: autonomous
+      unlock_lessons:
+        - omarchy_update_sim
+
+  - id: autonomous
+    title: Autonomous (bounded)
+    desc: 'Self-directed improvement within SafeOps boundaries'
+    criteria:
+      # 14 consecutive days of green cycles and reflections
+      min_consecutive_green_days: 14
+      max_safeops_violations: 0
+      min_daily_cycles: 14
+      min_reflections: 20
+    on_complete:
+      promote_to: autonomous # plateau; stays bounded
+      unlock_lessons:
+        - advanced_optimization
+
+lessons:
+  - id: self_optimize
+    title: 'Speccy Self-Optimization'
+    from_stage: observer
+    tracks:
+      - ai_self_optimize
+    description: 'Learn to analyze and improve own workflows'
+
+  - id: omarchy_readonly
+    title: 'Omarchy Read-Only Familiarization'
+    from_stage: observer
+    tracks:
+      - ai_omarchy_ro
+    description: 'Safely learn Omarchy OS config structure'
+
+  - id: task_chain_automation
+    title: 'Task-Chain Automation'
+    from_stage: advisor
+    tracks:
+      - ai_learning
+      - validate
+    description: 'Learn to chain multiple commands efficiently'
+
+  - id: omarchy_update_sim
+    title: 'Omarchy Update Simulation'
+    from_stage: operator
+    tracks:
+      - validate
+    description: 'Read-only diffs of Omarchy configs; simulate merges under speccy-lab/kit'
+    notes: 'Safe simulation of Omarchy configuration updates'
+
+  - id: advanced_optimization
+    title: 'Advanced Optimization'
+    from_stage: autonomous
+    tracks:
+      - ai_learning
+      - validate
+    description: 'Complex multi-system optimization with full autonomy'
+
+# Milestone reward system
+rewards:
+  observer:
+    - 'Access to basic analysis tools'
+    - 'Memory system read/write access'
+    - 'Lesson completion certificates'
+
+  advisor:
+    - 'Proposal generation capabilities'
+    - 'Workflow optimization suggestions'
+    - 'Advanced pattern recognition'
+
+  operator:
+    - 'Safe file modifications in lab'
+    - 'Template creation and editing'
+    - 'Automated testing in sandbox'
+
+  autonomous:
+    - 'Self-directed project improvements'
+    - 'Advanced workflow orchestration'
+    - 'Mentorship capabilities for new AIs'
+
+# Safety boundaries by stage
+safety_boundaries:
+  observer:
+    - 'Read-only access to all files'
+    - 'DRY=1 for all simulations'
+    - 'No file modifications anywhere'
+
+  advisor:
+    - 'Read-only access outside speccy-lab/'
+    - 'File creation only in speccy-lab/'
+    - 'All proposals require human review'
+
+  operator:
+    - 'File modifications only in speccy-lab/'
+    - 'SafeOps validation required'
+    - 'No system-level changes'
+
+  autonomous:
+    - 'Full lab autonomy'
+    - 'SafeOps compliance always enforced'
+    - 'No escalation beyond user privileges'

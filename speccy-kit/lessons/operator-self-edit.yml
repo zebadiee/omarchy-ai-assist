@@ -1,0 +1,11 @@
+version: 1
+lesson:
+  id: operator-self-edit
+  name: Operator Lesson 1 — Safe self-edit in LAB
+  desc: Practice making guarded edits under SafeOps to files inside speccy-lab.
+  steps:
+    - run: bash speccy-kit/tools/ai-status.sh harvest
+    - run: bash speccy-kit/tools/lesson-operator-edit.sh
+    - run: echo "REFLECT: performed guarded self-edit in LAB" >> speccy-lab/memory/training.log
+    - run: echo "DRY-RUN:OK $(date -Iseconds)" >> speccy-lab/logs/lesson-operator.log
+    - run: bash speccy-kit/tools/ai-status.sh show

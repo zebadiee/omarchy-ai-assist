@@ -1,0 +1,31 @@
+{
+  "core": "om-freeze",
+  "module_dir": "/home/zebadiee/.local/bin",
+  "retired": [
+    "om-aks-verify",
+    "om-3lh-verify"
+  ],
+  "verbs": {
+    "om-acc-verify": "support",
+    "om-agent": "route",
+    "om-agent-health": "monitor",
+    "om-aks-prepend": "support",
+    "om-aks-verify": "enforce",
+    "om-contract": "support",
+    "om-freeze": "support",
+    "om-guard": "guard",
+    "om-health": "support",
+    "om-obs-ensure": "ensure",
+    "om-obs-set": "seed",
+    "om-omega": "support",
+    "om-preflight": "budget",
+    "om-release": "support",
+    "om-sem-cache": "cache",
+    "om-shim": "support",
+    "om-shra": "hash",
+    "om-usage": "report",
+    "om-vbh-prepend": "signal",
+    "om-vbh-verify": "enforce",
+    "om-verify": "support"
+  }
+}

@@ -1,0 +1,8 @@
+version: 1
+workflows:
+  ai_operator2:
+    desc: SafeOps revert + audit trail, then status & auto-promotion
+    steps:
+      - run: ./speccy lesson operator-revert
+      - run: ./speccy status
+      - run: ./speccy milestone promote auto

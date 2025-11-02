@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Simple GPG-symmetric vault for API keys.
+# usage:
+#   bin/token-vault add OPENROUTER_KEYS
+#   bin/token-vault get OPENROUTER_KEYS
+set -euo pipefail
+VAULT="${HOME}/.omarchy/keys.gpg"
+TMP="$(mktemp)"
+mkdir -p "$(dirname "$VAULT")"
+
+load() {
+  if [ -f "$VAULT" ]; then
+    gpg --quiet --decrypt "$VAULT" > "$TMP"
+  else
+    echo "{}" > "$TMP"
+  fi
+}
+save() {
+  gpg --yes --symmetric --cipher-algo AES256 --output "$VAULT" "$TMP"
+  rm -f "$TMP"
+}
+
+cmd="${1:-}"; key="${2:-}"
+[ -z "$cmd" ] && { echo "usage: $0 <add|get|list>" >&2; exit 2; }
+load
+case "$cmd" in
+  add)
+    [ -z "$key" ] && { echo "usage: $0 add <NAME>" >&2; exit 2; }
+    echo "Paste value for $key (end with Ctrl-D):"
+    val="$(cat)"
+    jq --arg k "$key" --arg v "$val" '.[$k]=$v' "$TMP" > "${TMP}.new" && mv "${TMP}.new" "$TMP"
+    save
+    echo "Stored $key in vault."
+    ;;
+  get)
+    [ -z "$key" ] && { echo "usage: $0 get <NAME>" >&2; exit 2; }
+    jq -r --arg k "$key" '.[$k] // ""' "$TMP"
+    rm -f "$TMP"
+    ;;
+  list)
+    jq 'keys' "$TMP"
+    rm -f "$TMP"
+    ;;
+  *) echo "unknown command: $cmd" >&2; exit 2;;
+esac

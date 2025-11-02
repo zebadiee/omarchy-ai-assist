@@ -1,0 +1,9 @@
+version: 1
+workflows:
+  mcp_evolve:
+    desc: Observe logs, extract new lesson templates, curate them
+    steps:
+      - run: ./speccy-lab/agents/mcp_observer.sh &
+      - run: python3 ./speccy-lab/agents/mcp_extractor.py
+      - run: ./speccy-lab/agents/mcp_curator.sh
+      - run: ./speccy status

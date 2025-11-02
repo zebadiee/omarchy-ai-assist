@@ -1,0 +1,9 @@
+version: 1
+workflows:
+  mcp_consolidate:
+    desc: Condense pack indexes, compact lessons, prune memory/logs, refresh status
+    steps:
+      - run: ./speccy kit condense-packs
+      - run: python3 speccy-kit/tools/lesson_compactor.py
+      - run: ./speccy kit memory-gc
+      - run: ./speccy status

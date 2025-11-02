@@ -1,0 +1,47 @@
+[0;34m[INFO][0m Running workflow: ai_learning
+
+[0;34m[INFO][0m Workflow steps for 'ai_learning':
+  Step 1: bash speccy-kit/tools/run-workflow.sh "" validate >> speccy-lab/logs/validation-history.log
+  → [0;32m[SUCCESS][0m Step 1 completed successfully
+
+  Step 2: ./speccy memory "daily_learning_cycle_completed"
+  → \033[0;32m✅ Memory stored:\033[0m daily_learning_cycle_completed
+[0;32m[SUCCESS][0m Step 2 completed successfully
+
+  Step 3: echo "AI_LEARNING_CYCLE $(date -Is)" >> speccy-lab/logs/ai-cycles.log
+  → [0;32m[SUCCESS][0m Step 3 completed successfully
+
+  Step 4: export PATH="$PATH:~/bin" && ./speccy milestone harvest
+  → [0;34m[INFO][0m Harvesting metrics from logs and memory...
+[0;32m[SUCCESS][0m Metrics harvested successfully
+Metrics harvested successfully.
+[0;32m[SUCCESS][0m Step 4 completed successfully
+
+  Step 5: export PATH="$PATH:~/bin" && ./speccy milestone record 1
+  → Cycle recorded: 1 (1=green, 0=red)
+[0;32m[SUCCESS][0m Step 5 completed successfully
+
+  Step 6: export PATH="$PATH:~/bin" && ./speccy milestone promote
+  → [0;34m[INFO][0m Harvesting metrics from logs and memory...
+[0;32m[SUCCESS][0m Metrics harvested successfully
+[0;36mChecking promotion eligibility for stage: observer[0m
+[0;36mStage: observer[0m
+Criteria check:
+  dry_runs:                    0/3 ❌
+  reflections:                 0/3 ❌
+  proposals:                   0/3 ❌
+  validate_pass:               4/2 ✅
+  safeops_exec_ok:             0/0 ✅
+  daily_cycles:                0/0 ✅
+  consecutive_green_days:      1/0 ✅
+  lessons_completed:           0/0 ✅
+  safeops_violations:          0<=0 ✅
+
+[1;33m❌ Some criteria not yet met for stage: observer[0m
+[1;33m[WARNING][0m Not ready to promote yet. Continue working on stage: observer
+[0;31m[ERROR][0m Step 6 failed with exit code 1
+
+[0;31m[ERROR][0m Workflow 'ai_learning' failed at step 6
+[DRY] PASS: Observer dry-run simulation 1
+[DRY] PASS: Observer dry-run simulation 2
+[DRY] PASS: Observer dry-run simulation 3

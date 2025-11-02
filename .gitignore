@@ -15,3 +15,5 @@
 # R&D bootstrap artifacts
 .cache/
 RnD/searchd
+tools/quantum_autoencoder_stub.py
+tools/vscodium-github-copilot-agent.sh
