@@ -102,10 +102,10 @@ rnd-stop:
 	fi
 
 import-byox:
-	@[ "${X:-}" ] || (echo "usage: make import-byox X=search-engine" && exit 1)
+	@[ "$${X:-}" ] || (echo "usage: make import-byox X=search-engine" && exit 1)
 	@git remote add byox https://github.com/codecrafters-io/build-your-own-x.git 2>/dev/null || true
 	@git sparse-checkout init --cone
-	@git sparse-checkout set projects/${X}
+	@git sparse-checkout set projects/$(X)
 	@git pull byox master
 launch-rnd:
 	./scripts/omarchy_rnd_bootstrap.sh
