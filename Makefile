@@ -135,3 +135,7 @@ ensure-byox-default:
 		$(MAKE) import-byox X=search-engine || true; }
 launch-rnd:
 	./scripts/omarchy_rnd_bootstrap.sh
+
+.PHONY: select-byox
+select-byox:
+	@./scripts/byox_select.sh
