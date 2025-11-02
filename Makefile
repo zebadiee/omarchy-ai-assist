@@ -1,4 +1,4 @@
-.PHONY: help bootstrap lint test clean
+.PHONY: help bootstrap lint test clean launch health monitor
 
 # Default target
 help:
@@ -47,3 +47,12 @@ clean:
 	@rm -rf dist
 	@rm -rf .next
 	@echo "✅ Clean complete!"
+
+launch:
+	@./scripts/omarchy_one_button.sh
+
+health:
+	@./scripts/health-check.sh || true
+
+monitor:
+	@./quantum-forge-monitor
