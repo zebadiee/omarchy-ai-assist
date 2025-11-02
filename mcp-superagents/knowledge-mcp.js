@@ -15,6 +15,7 @@ const {
 } = require('@modelcontextprotocol/sdk/types.js');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 class KnowledgeSuperagentMCP {
   constructor() {
@@ -27,7 +28,7 @@ class KnowledgeSuperagentMCP {
         capabilities: {
           tools: {},
         },
-      }
+      },
     );
 
     this.knowledgeBase = new Map();
@@ -35,6 +36,12 @@ class KnowledgeSuperagentMCP {
     this.verificationRules = new Map();
     this.omarchyContext = this.loadOmarchyKnowledge();
     this.currentSession = null;
+
+    // Enhanced capabilities
+    this.vbhCounter = parseInt(process.env.OM_VBH_COUNTER || '1');
+    this.vbhFacts = this.loadVBHFacts();
+    this.semanticCache = new Map();
+    this.configDir = '/home/zebadiee/.npm-global/omarchy-wagon';
 
     this.setupToolHandlers();
     this.initializeKnowledgeSystems();
@@ -74,7 +81,13 @@ class KnowledgeSuperagentMCP {
             properties: {
               knowledgeType: {
                 type: 'string',
-                enum: ['architecture', 'configuration', 'integration', 'workflow', 'best-practices'],
+                enum: [
+                  'architecture',
+                  'configuration',
+                  'integration',
+                  'workflow',
+                  'best-practices',
+                ],
                 description: 'Type of knowledge to analyze',
               },
               data: {
@@ -109,7 +122,13 @@ class KnowledgeSuperagentMCP {
                 type: 'array',
                 items: {
                   type: 'string',
-                  enum: ['wayland-compatibility', 'minimal-resource', 'keyboard-driven', 'static-linking', 'single-binary']
+                  enum: [
+                    'wayland-compatibility',
+                    'minimal-resource',
+                    'keyboard-driven',
+                    'static-linking',
+                    'single-binary',
+                  ],
                 },
                 description: 'Omarchy standards to verify against',
               },
@@ -130,8 +149,8 @@ class KnowledgeSuperagentMCP {
                   properties: {
                     type: { type: 'string' },
                     content: { type: 'string' },
-                    confidence: { type: 'number' }
-                  }
+                    confidence: { type: 'number' },
+                  },
                 },
                 description: 'Multiple knowledge sources to synthesize',
               },
@@ -173,8 +192,8 @@ class KnowledgeSuperagentMCP {
                     from: { type: 'string' },
                     to: { type: 'string' },
                     type: { type: 'string' },
-                    weight: { type: 'number' }
-                  }
+                    weight: { type: 'number' },
+                  },
                 },
                 description: 'Relationships between concepts',
               },
@@ -196,7 +215,7 @@ class KnowledgeSuperagentMCP {
                 type: 'array',
                 items: {
                   type: 'string',
-                  enum: ['cost-reduction', 'speed-improvement', 'quality-maintain', 'load-balance']
+                  enum: ['cost-reduction', 'speed-improvement', 'quality-maintain', 'load-balance'],
                 },
                 description: 'Optimization goals',
               },
@@ -227,7 +246,7 @@ class KnowledgeSuperagentMCP {
                 type: 'array',
                 items: {
                   type: 'string',
-                  enum: ['architectural', 'configuration', 'integration', 'workflow', 'naming']
+                  enum: ['architectural', 'configuration', 'integration', 'workflow', 'naming'],
                 },
                 description: 'Types of patterns to cross-reference',
               },
@@ -258,16 +277,10 @@ class KnowledgeSuperagentMCP {
           case 'cross_reference_patterns':
             return await this.crossReferencePatterns(args);
           default:
-            throw new McpError(
-              ErrorCode.MethodNotFound,
-              `Unknown tool: ${name}`
-            );
+            throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
         }
       } catch (error) {
-        throw new McpError(
-          ErrorCode.InternalError,
-          `Tool execution failed: ${error.message}`
-        );
+        throw new McpError(ErrorCode.InternalError, `Tool execution failed: ${error.message}`);
       }
     });
   }
@@ -281,13 +294,13 @@ class KnowledgeSuperagentMCP {
         contentLength: content.length,
         context: context || {},
         extractedAt: new Date().toISOString(),
-        estimatedTokens: Math.ceil(content.length / 4)
+        estimatedTokens: Math.ceil(content.length / 4),
       },
       patterns: this.extractPatterns(source, content, context),
       relationships: this.extractRelationships(source, content),
       conventions: this.extractConventions(source, content),
       integration: this.extractIntegrationPatterns(source, content),
-      analysis: this.analyzePatternQuality(source, content)
+      analysis: this.analyzePatternQuality(source, content),
     };
 
     // Store extracted knowledge
@@ -310,14 +323,14 @@ class KnowledgeSuperagentMCP {
       metadata: {
         type: knowledgeType,
         verificationLevel: verificationLevel || 'basic',
-        analyzedAt: new Date().toISOString()
+        analyzedAt: new Date().toISOString(),
       },
       categorization: this.categorizeKnowledge(knowledgeType, data),
       validation: this.validateKnowledge(knowledgeType, data, verificationLevel),
       relationships: this.analyzeKnowledgeRelationships(knowledgeType, data),
       gaps: this.identifyKnowledgeGaps(knowledgeType, data),
       recommendations: this.generateRecommendations(knowledgeType, data),
-      confidence: this.assessConfidence(knowledgeType, data, verificationLevel)
+      confidence: this.assessConfidence(knowledgeType, data, verificationLevel),
     };
 
     return {
@@ -337,19 +350,23 @@ class KnowledgeSuperagentMCP {
       component: {
         type: componentType,
         implementation: implementation,
-        standards: standards || this.getDefaultStandards(componentType)
+        standards: standards || this.getDefaultStandards(componentType),
       },
       compliance: {
         overall: this.verifyOverallCompliance(componentType, implementation, standards),
         detailed: this.verifyDetailedCompliance(componentType, implementation, standards),
         issues: this.identifyComplianceIssues(componentType, implementation, standards),
-        recommendations: this.generateComplianceRecommendations(componentType, implementation, standards)
+        recommendations: this.generateComplianceRecommendations(
+          componentType,
+          implementation,
+          standards,
+        ),
       },
       metrics: {
         complianceScore: this.calculateComplianceScore(componentType, implementation, standards),
         riskLevel: this.assessComplianceRisk(componentType, implementation, standards),
-        improvementAreas: this.identifyImprovementAreas(componentType, implementation, standards)
-      }
+        improvementAreas: this.identifyImprovementAreas(componentType, implementation, standards),
+      },
     };
 
     return {
@@ -372,7 +389,7 @@ class KnowledgeSuperagentMCP {
       structured: this.structureSynthesizedKnowledge(synthesisGoal, outputFormat),
       validation: this.validateSynthesizedKnowledge(synthesisGoal, sources),
       applications: this.identifyApplications(synthesisGoal),
-      confidence: this.assessSynthesisConfidence(sources, synthesisGoal)
+      confidence: this.assessSynthesisConfidence(sources, synthesisGoal),
     };
 
     return {
@@ -395,7 +412,7 @@ class KnowledgeSuperagentMCP {
       topology: this.analyzeGraphTopology(concepts, relationships),
       insights: this.generateGraphInsights(concepts, relationships, domain),
       applications: this.identifyGraphApplications(domain),
-      visualization: this.generateVisualizationData(concepts, relationships)
+      visualization: this.generateVisualizationData(concepts, relationships),
     };
 
     return {
@@ -415,23 +432,23 @@ class KnowledgeSuperagentMCP {
       workflow: {
         data: workflowData,
         goals: optimizationGoals,
-        constraints: constraints || {}
+        constraints: constraints || {},
       },
       efficiency: {
         current: this.analyzeCurrentEfficiency(workflowData),
         bottlenecks: this.identifyBottlenecks(workflowData),
-        optimization: this.identifyOptimizations(workflowData, optimizationGoals)
+        optimization: this.identifyOptimizations(workflowData, optimizationGoals),
       },
       recommendations: {
         immediate: this.generateImmediateRecommendations(workflowData, optimizationGoals),
         strategic: this.generateStrategicRecommendations(workflowData, optimizationGoals),
-        implementation: this.generateImplementationPlan(workflowData, optimizationGoals)
+        implementation: this.generateImplementationPlan(workflowData, optimizationGoals),
       },
       projections: {
         savings: this.projectTokenSavings(workflowData, optimizationGoals),
         improvements: this.projectPerformanceImprovements(workflowData, optimizationGoals),
-        roi: this.calculateOptimizationROI(workflowData, optimizationGoals)
-      }
+        roi: this.calculateOptimizationROI(workflowData, optimizationGoals),
+      },
     };
 
     return {
@@ -450,25 +467,25 @@ class KnowledgeSuperagentMCP {
     const crossRef = {
       primary: {
         component: primaryComponent,
-        patterns: this.extractComponentPatterns(primaryComponent, patternTypes)
+        patterns: this.extractComponentPatterns(primaryComponent, patternTypes),
       },
       related: {
-        components: relatedComponents.map(comp => ({
+        components: relatedComponents.map((comp) => ({
           name: comp,
-          patterns: this.extractComponentPatterns(comp, patternTypes)
-        }))
+          patterns: this.extractComponentPatterns(comp, patternTypes),
+        })),
       },
       analysis: {
         commonalities: this.findCommonalities(primaryComponent, relatedComponents, patternTypes),
         differences: this.findDifferences(primaryComponent, relatedComponents, patternTypes),
         synergies: this.identifySynergies(primaryComponent, relatedComponents, patternTypes),
-        conflicts: this.identifyConflicts(primaryComponent, relatedComponents, patternTypes)
+        conflicts: this.identifyConflicts(primaryComponent, relatedComponents, patternTypes),
       },
       recommendations: {
         standardization: this.recommendStandardizations(primaryComponent, relatedComponents),
         optimization: this.recommendOptimizations(primaryComponent, relatedComponents),
-        integration: this.recommendIntegrations(primaryComponent, relatedComponents)
-      }
+        integration: this.recommendIntegrations(primaryComponent, relatedComponents),
+      },
     };
 
     return {
@@ -503,12 +520,12 @@ class KnowledgeSuperagentMCP {
     // Extract integration patterns
     patterns.push(...this.extractIntegrationPatterns(content));
 
-    return patterns.map(pattern => ({
+    return patterns.map((pattern) => ({
       type: pattern.type,
       name: pattern.name,
       description: pattern.description,
       frequency: this.calculatePatternFrequency(pattern, content),
-      confidence: this.assessPatternConfidence(pattern, context)
+      confidence: this.assessPatternConfidence(pattern, context),
     }));
   }
 
@@ -520,26 +537,26 @@ class KnowledgeSuperagentMCP {
       {
         type: 'single-binary',
         name: 'Single Binary Deployment',
-        description: 'Application deployed as a single statically-linked binary'
+        description: 'Application deployed as a single statically-linked binary',
       },
       {
         type: 'minimal-footprint',
         name: 'Minimal Resource Footprint',
-        description: 'Optimized for minimal memory and CPU usage'
+        description: 'Optimized for minimal memory and CPU usage',
       },
       {
         type: 'wayland-native',
         name: 'Wayland Native Integration',
-        description: 'Native Wayland support without XWayland dependencies'
+        description: 'Native Wayland support without XWayland dependencies',
       },
       {
         type: 'keyboard-driven',
         name: 'Keyboard-Driven Interface',
-        description: 'Primary interaction through keyboard shortcuts and commands'
-      }
+        description: 'Primary interaction through keyboard shortcuts and commands',
+      },
     ];
 
-    archPatterns.forEach(pattern => {
+    archPatterns.forEach((pattern) => {
       if (this.contentContainsPattern(content, pattern)) {
         patterns.push(pattern);
       }
@@ -556,7 +573,7 @@ class KnowledgeSuperagentMCP {
       patterns.push({
         type: 'yaml-config',
         name: 'YAML Configuration',
-        description: 'Configuration stored in YAML format for readability'
+        description: 'Configuration stored in YAML format for readability',
       });
     }
 
@@ -565,7 +582,7 @@ class KnowledgeSuperagentMCP {
       patterns.push({
         type: 'xdg-config',
         name: 'XDG Configuration Directory',
-        description: 'Configuration follows XDG Base Directory specification'
+        description: 'Configuration follows XDG Base Directory specification',
       });
     }
 
@@ -580,7 +597,7 @@ class KnowledgeSuperagentMCP {
       patterns.push({
         type: 'sequential-workflow',
         name: 'Sequential Processing',
-        description: 'Tasks processed in sequence with dependencies'
+        description: 'Tasks processed in sequence with dependencies',
       });
     }
 
@@ -589,7 +606,7 @@ class KnowledgeSuperagentMCP {
       patterns.push({
         type: 'parallel-workflow',
         name: 'Parallel Processing',
-        description: 'Multiple tasks processed simultaneously'
+        description: 'Multiple tasks processed simultaneously',
       });
     }
 
@@ -604,7 +621,7 @@ class KnowledgeSuperagentMCP {
       patterns.push({
         type: 'waybar-integration',
         name: 'Waybar Status Integration',
-        description: 'Integration with Waybar status bar'
+        description: 'Integration with Waybar status bar',
       });
     }
 
@@ -613,7 +630,7 @@ class KnowledgeSuperagentMCP {
       patterns.push({
         type: 'hyprland-integration',
         name: 'Hyprland WM Integration',
-        description: 'Integration with Hyprland window manager'
+        description: 'Integration with Hyprland window manager',
       });
     }
 
@@ -622,7 +639,7 @@ class KnowledgeSuperagentMCP {
       patterns.push({
         type: 'wofi-integration',
         name: 'Wofi Launcher Integration',
-        description: 'Integration with Wofi application launcher'
+        description: 'Integration with Wofi application launcher',
       });
     }
 
@@ -630,17 +647,17 @@ class KnowledgeSuperagentMCP {
   }
 
   contentContainsPattern(content, pattern) {
-    const keywords = pattern.description.split(' ').map(word => word.toLowerCase());
+    const keywords = pattern.description.split(' ').map((word) => word.toLowerCase());
     const contentLower = content.toLowerCase();
 
-    return keywords.some(keyword => contentLower.includes(keyword));
+    return keywords.some((keyword) => contentLower.includes(keyword));
   }
 
   calculatePatternFrequency(pattern, content) {
     const keywords = pattern.description.split(' ').slice(0, 3);
     let matches = 0;
 
-    keywords.forEach(keyword => {
+    keywords.forEach((keyword) => {
       const regex = new RegExp(keyword, 'gi');
       const found = (content.match(regex) || []).length;
       matches += found;
@@ -667,11 +684,11 @@ class KnowledgeSuperagentMCP {
   // Knowledge analysis methods
   categorizeKnowledge(type, data) {
     const categories = {
-      'architecture': ['system-design', 'component-structure', 'patterns', 'principles'],
-      'configuration': ['settings', 'files', 'formats', 'locations'],
-      'integration': ['apis', 'protocols', 'interfaces', 'mappings'],
-      'workflow': ['processes', 'sequences', 'dependencies', 'automation'],
-      'best-practices': ['guidelines', 'recommendations', 'standards', 'conventions']
+      architecture: ['system-design', 'component-structure', 'patterns', 'principles'],
+      configuration: ['settings', 'files', 'formats', 'locations'],
+      integration: ['apis', 'protocols', 'interfaces', 'mappings'],
+      workflow: ['processes', 'sequences', 'dependencies', 'automation'],
+      'best-practices': ['guidelines', 'recommendations', 'standards', 'conventions'],
     };
 
     return categories[type] || ['general'];
@@ -682,7 +699,7 @@ class KnowledgeSuperagentMCP {
       completeness: this.assessCompleteness(type, data),
       accuracy: this.assessAccuracy(type, data),
       consistency: this.assessConsistency(type, data),
-      relevance: this.assessRelevance(type, data)
+      relevance: this.assessRelevance(type, data),
     };
 
     if (level === 'thorough' || level === 'comprehensive') {
@@ -696,14 +713,14 @@ class KnowledgeSuperagentMCP {
   assessCompleteness(type, data) {
     const requiredFields = this.getRequiredFields(type);
     const providedFields = Object.keys(data);
-    const completeness = requiredFields.filter(field =>
-      providedFields.includes(field)
-    ).length / requiredFields.length;
+    const completeness =
+      requiredFields.filter((field) => providedFields.includes(field)).length /
+      requiredFields.length;
 
     return {
       score: completeness,
-      missing: requiredFields.filter(field => !providedFields.includes(field)),
-      assessment: completeness > 0.8 ? 'complete' : completeness > 0.5 ? 'partial' : 'incomplete'
+      missing: requiredFields.filter((field) => !providedFields.includes(field)),
+      assessment: completeness > 0.8 ? 'complete' : completeness > 0.5 ? 'partial' : 'incomplete',
     };
   }
 
@@ -725,7 +742,7 @@ class KnowledgeSuperagentMCP {
     });
 
     output += `🔗 **Integration Patterns**\n`;
-    extraction.integration.forEach(integration => {
+    extraction.integration.forEach((integration) => {
       output += `• ${integration.name}: ${integration.description}\n`;
     });
 
@@ -745,7 +762,7 @@ class KnowledgeSuperagentMCP {
     output += `Verification: ${analysis.metadata.verificationLevel}\n\n`;
 
     output += `📂 **Categorization**\n`;
-    analysis.categorization.forEach(cat => {
+    analysis.categorization.forEach((cat) => {
       output += `• ${cat}\n`;
     });
 
@@ -774,7 +791,7 @@ class KnowledgeSuperagentMCP {
       id: this.generateSessionId(),
       startTime: new Date().toISOString(),
       extractions: [],
-      analyses: []
+      analyses: [],
     };
   }
 
@@ -787,7 +804,7 @@ class KnowledgeSuperagentMCP {
         category: 'architectural',
         description: 'Deploy applications as single statically-linked binaries',
         context: 'go-development',
-        examples: ['go build -ldflags="-s -w"', 'CGO_ENABLED=0']
+        examples: ['go build -ldflags="-s -w"', 'CGO_ENABLED=0'],
       },
       {
         id: 'xdg-config-structure',
@@ -795,7 +812,7 @@ class KnowledgeSuperagentMCP {
         category: 'configuration',
         description: 'Follow XDG Base Directory specification for config files',
         context: 'file-system',
-        examples: ['~/.config/omarchy/', '~/.local/share/']
+        examples: ['~/.config/omarchy/', '~/.local/share/'],
       },
       {
         id: 'wayland-native-design',
@@ -803,11 +820,11 @@ class KnowledgeSuperagentMCP {
         category: 'integration',
         description: 'Design for native Wayland support',
         context: 'desktop-environment',
-        examples: ['Hyprland', 'Waybar', 'Alacritty']
-      }
+        examples: ['Hyprland', 'Waybar', 'Alacritty'],
+      },
     ];
 
-    patterns.forEach(pattern => {
+    patterns.forEach((pattern) => {
       this.patternLibrary.set(pattern.id, pattern);
     });
   }
@@ -817,28 +834,33 @@ class KnowledgeSuperagentMCP {
       'go-binary': [
         { name: 'static-linking', check: 'CGO_ENABLED=0' },
         { name: 'strip-binary', check: 'build flags -s -w' },
-        { name: 'single-output', check: 'single binary artifact' }
+        { name: 'single-output', check: 'single binary artifact' },
       ],
-      'configuration': [
+      configuration: [
         { name: 'yaml-format', check: 'YAML structure' },
         { name: 'xdg-paths', check: 'XDG directory usage' },
-        { name: 'defaults', check: 'sensible defaults provided' }
+        { name: 'defaults', check: 'sensible defaults provided' },
       ],
-      'integration': [
+      integration: [
         { name: 'wayland-compat', check: 'Wayland protocol support' },
         { name: 'keyboard-driven', check: 'keyboard navigation' },
-        { name: 'minimal-resource', check: 'resource efficiency' }
-      ]
+        { name: 'minimal-resource', check: 'resource efficiency' },
+      ],
     };
 
-    Object.keys(rules).forEach(category => {
+    Object.keys(rules).forEach((category) => {
       this.verificationRules.set(category, rules[category]);
     });
   }
 
   loadOmarchyKnowledge() {
     try {
-      const knowledgePath = path.join(__dirname, '..', 'knowledge-outbox', 'omarchy-knowledge-base.json');
+      const knowledgePath = path.join(
+        __dirname,
+        '..',
+        'knowledge-outbox',
+        'omarchy-knowledge-base.json',
+      );
       if (fs.existsSync(knowledgePath)) {
         return JSON.parse(fs.readFileSync(knowledgePath, 'utf8'));
       }
@@ -849,19 +871,19 @@ class KnowledgeSuperagentMCP {
     return {
       architecture: {
         principles: ['minimalism', 'keyboard-driven', 'wayland-native'],
-        patterns: ['single-binary', 'static-linking', 'xdg-compliance']
+        patterns: ['single-binary', 'static-linking', 'xdg-compliance'],
       },
       desktop: {
         windowManager: 'Hyprland',
         statusBar: 'Waybar',
         launcher: 'Wofi',
-        terminal: 'Alacritty'
+        terminal: 'Alacritty',
       },
       development: {
         preferredLanguages: ['Go', 'JavaScript', 'Shell'],
         buildTools: ['make', 'go', 'node'],
-        packaging: ['single-binary', 'static-linking']
-      }
+        packaging: ['single-binary', 'static-linking'],
+      },
     };
   }
 
@@ -878,14 +900,160 @@ class KnowledgeSuperagentMCP {
 
   getRequiredFields(type) {
     const fields = {
-      'architecture': ['components', 'relationships', 'patterns'],
-      'configuration': ['settings', 'format', 'location'],
-      'integration': ['interfaces', 'protocols', 'data-flow'],
-      'workflow': ['steps', 'dependencies', 'triggers'],
-      'best-practices': ['guidelines', 'rationale', 'examples']
+      architecture: ['components', 'relationships', 'patterns'],
+      configuration: ['settings', 'format', 'location'],
+      integration: ['interfaces', 'protocols', 'data-flow'],
+      workflow: ['steps', 'dependencies', 'triggers'],
+      'best-practices': ['guidelines', 'rationale', 'examples'],
     };
 
     return fields[type] || [];
+  }
+
+  // VBH compliance methods
+  loadVBHFacts() {
+    try {
+      const vbhFile = path.join(this.configDir, 'vbh-facts.json');
+      if (fs.existsSync(vbhFile)) {
+        return JSON.parse(fs.readFileSync(vbhFile, 'utf8'));
+      } else if (process.env.OM_VBH_FACTS) {
+        return JSON.parse(process.env.OM_VBH_FACTS);
+      } else {
+        return {
+          scope: "unified",
+          site: "Omarchy",
+          open_tasks: 0,
+          provider: "knowledge-mcp"
+        };
+      }
+    } catch (error) {
+      console.warn('⚠️  VBH facts loading failed:', error.message);
+      return {
+        scope: "unified",
+        site: "Omarchy",
+        open_tasks: 0,
+        provider: "knowledge-mcp"
+      };
+    }
+  }
+
+  generateVBHHeader() {
+    const content = JSON.stringify(this.vbhFacts);
+    const sha = crypto.createHash('sha256').update(content).digest('hex').substring(0, 8);
+    this.vbhCounter++;
+    return `#VBH:${this.vbhCounter}:${sha}`;
+  }
+
+  createVBHCompliantResponse(content, additionalFacts = {}) {
+    const header = this.generateVBHHeader();
+    const confirmFacts = {
+      ...this.vbhFacts,
+      ...additionalFacts
+    };
+    const confirmLine = `CONFIRM:${JSON.stringify(confirmFacts)}`;
+    return `${header}\n${confirmLine}\n\n${content}`;
+  }
+
+  // Semantic caching methods
+  generateSemanticCacheKey(query, analysisType = 'patterns') {
+    const components = {
+      query: query.toLowerCase().trim().substring(0, 200),
+      type: analysisType,
+      scope: this.vbhFacts.scope,
+      site: this.vbhFacts.site
+    };
+
+    const keyString = JSON.stringify(components, Object.keys(components).sort());
+    const hash = crypto.createHash('sha256').update(keyString).digest('hex');
+    return `knowledge_${hash.substring(0, 16)}`;
+  }
+
+  checkSemanticCache(cacheKey) {
+    const cacheFile = path.join(this.configDir, 'knowledge-cache.json');
+    try {
+      if (fs.existsSync(cacheFile)) {
+        const cache = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+        const entry = cache[cacheKey];
+
+        if (entry && !this.isCacheEntryExpired(entry)) {
+          return entry;
+        }
+      }
+    } catch (error) {
+      console.warn('⚠️  Knowledge cache check failed:', error.message);
+    }
+    return null;
+  }
+
+  storeSemanticCache(cacheKey, response, metadata = {}) {
+    const cacheFile = path.join(this.configDir, 'knowledge-cache.json');
+    let cache = {};
+
+    try {
+      if (fs.existsSync(cacheFile)) {
+        cache = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+      }
+    } catch (error) {
+      console.warn('⚠️  Knowledge cache load failed:', error.message);
+    }
+
+    cache[cacheKey] = {
+      response,
+      metadata: {
+        ...metadata,
+        timestamp: new Date().toISOString(),
+        vbhCounter: this.vbhCounter
+      },
+      expiresAt: new Date(Date.now() + (12 * 60 * 60 * 1000)).toISOString() // 12 hours
+    };
+
+    // Clean old entries
+    this.cleanExpiredCacheEntries(cache);
+
+    if (!fs.existsSync(this.configDir)) {
+      fs.mkdirSync(this.configDir, { recursive: true });
+    }
+
+    fs.writeFileSync(cacheFile, JSON.stringify(cache, null, 2));
+  }
+
+  isCacheEntryExpired(entry) {
+    return new Date() > new Date(entry.expiresAt);
+  }
+
+  cleanExpiredCacheEntries(cache) {
+    const now = new Date();
+    Object.keys(cache).forEach(key => {
+      if (new Date(cache[key].expiresAt) < now) {
+        delete cache[key];
+      }
+    });
+  }
+
+  // Enhanced pattern extraction with caching
+  async extractPatternsWithCaching(content, options = {}) {
+    const cacheKey = this.generateSemanticCacheKey(
+      content.substring(0, 100) + JSON.stringify(options),
+      'pattern_extraction'
+    );
+
+    const cached = this.checkSemanticCache(cacheKey);
+    if (cached && !options.bypassCache) {
+      console.log('🎯 Knowledge cache hit for pattern extraction');
+      return cached.response;
+    }
+
+    // Perform actual pattern extraction
+    const patterns = this.extractOmarchyPatterns(content, options);
+
+    // Store in cache
+    this.storeSemanticCache(cacheKey, patterns, {
+      contentLength: content.length,
+      options,
+      patternCount: patterns.length
+    });
+
+    return patterns;
   }
 
   async run() {
