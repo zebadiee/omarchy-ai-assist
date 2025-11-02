@@ -59,11 +59,12 @@ monitor:
 
 # --- Omarchy R&D / BYOX ---
 rnd-build:
-	( cd RnD/byox-search-engine/cmd/searchd && go build -o ../../../searchd )
+	@mkdir -p .cache/go-build .cache/go-mod
+	@( cd RnD/byox-search-engine/cmd/searchd && GOCACHE="$(CURDIR)/.cache/go-build" GOMODCACHE="$(CURDIR)/.cache/go-mod" go build -o ../../../searchd )
 rnd-run: rnd-build
-	./searchd & sleep 1 && curl -s localhost:8188/ping || true
-rnd-search:
-	curl -s localhost:8188/search -H "Content-Type: application/json" -d '{"q":"test"}' | jq .
+	@bash -lc "./RnD/searchd & pid=\$$!; sleep 1; curl -s localhost:8188/ping || true; kill \$$pid >/dev/null 2>&1 || true"
+rnd-search: rnd-build
+	@bash -lc "./RnD/searchd & pid=\$$!; sleep 1; if command -v jq >/dev/null 2>&1; then curl -s localhost:8188/search -H 'Content-Type: application/json' -d '{\"q\":\"test\"}' | jq .; else curl -s localhost:8188/search -H 'Content-Type: application/json' -d '{\"q\":\"test\"}'; fi; kill \$$pid >/dev/null 2>&1 || true"
 import-byox:
 	@[ "${X:-}" ] || (echo "usage: make import-byox X=search-engine" && exit 1)
 	git remote add byox https://github.com/codecrafters-io/build-your-own-x.git 2>/dev/null || true
