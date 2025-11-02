@@ -1,0 +1,10 @@
+services:
+  omarchy:
+    build: .
+    volumes:
+      - .:/app
+      - ${HOME}/.omarchy:/root/.omarchy
+      - ${OM_OBSIDIAN_VAULT:-$HOME/Obsidian/Vault}:/root/Obsidian/Vault
+    environment:
+      - OM_OBSIDIAN_VAULT=/root/Obsidian/Vault
+      - OMARCHY_BUILD_ID
