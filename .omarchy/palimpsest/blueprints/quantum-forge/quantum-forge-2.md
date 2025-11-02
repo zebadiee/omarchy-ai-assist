@@ -1,8 +1,8 @@
 # Quantum-Forge Blueprint: quantum-forge-2
 
-**Generated:** 2025-11-02T08:39:00Z
+**Generated:** 2025-11-02T09:34:53Z
 **VBH Counter:** 2
-**Build ID:** qf-1762072740
+**Build ID:** qf-1762076093
 **Open Tasks:** 0
 
 ## Metrics
@@ -47,7 +47,7 @@ SEED VALUES:
     - VBH Vault path: $OM_OBSIDIAN_VAULT/Omarchy/State
     - Agents: sherlock-ohms, navigator, codex
     - Providers: gemini-2.0-flash, codex, local:gemma-2b
-    - Build ID: qf-1762072740
+    - Build ID: qf-1762076093
     - Facts: load from OM_VBH_FACTS JSON
 
 EXPECTED OUTPUT:
